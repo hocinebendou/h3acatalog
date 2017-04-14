@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+</head>
+<body>
+
+<div id="basic-form" class="section" layout:fragment="content" style="height: 150px">
+    <div class="fixed-action-btn horizontal show-search-form">
+        <a class="btn-floating btn-large red">
+            <span class="search-icon"><i class="large material-icons">search</i></span>
+        </a>
+    </div>
+    <div class="row" id="search-form">
+        <div class="card-panel col offset-s2 s8 offset-s2">
+            <h4 class="header2">Search Studies</h4>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="study_name" type="text" />
+                            <label for="study_name">Study Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select id="study_design">
+                                <option value="" disabled="disabled" selected="selected">Choose your profile</option>
+                                <option value="1">Manager</option>
+                                <option value="2">Developer</option>
+                                <option value="3">Business</option>
+                            </select>
+                            <label for="study_design">Select Profile</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select id="ethnicity">
+                                <option value="" disabled="disabled" selected="selected">Choose your profile</option>
+                                <option value="1">Manager</option>
+                                <option value="2">Developer</option>
+                                <option value="3">Business</option>
+                            </select>
+                            <label for="ethnicity">Select Profile</label>
+                        </div>
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Search
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Studies table -->
+    <div id="row-grouping" class="section">
+        <div class="row">
+            <div class="card-panel col offset-s2 s8 offset-s2">
+                <h4 class="header">Studies</h4>
+                <div>
+                    <table id="example" class="display" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Acronym</th>
+                            <th>Title</th>
+                            <th>Design</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <title>H3ABioNet Catalog</title>
+
+    <link href="/webjars/materializecss/0.98.1/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/webjars/material-design-icons/3.0.1/material-icons.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css" rel="stylesheet"/>
+    <link href="/webjars/datatables/1.10.13/css/dataTables.material.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/perfect-scrollbar.css}" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/mycss.css}" />
+</head>
+<body>
+
+<header id="header" class="page-topbar">
+    <div class="navbar-fixed">
+        <nav class="cyan">
+            <div class="nav-wrapper">
+                <h1 class="logo-wrapper">
+                    <a href="http://demo.geekslabs.com/materialize/v1.1/index.html" class="brand-logo darken-1">
+                        <img th:src="@{/img/materialize-logo.png}" alt="materialize logo" /></a>
+                    <span class="logo-text">Materialize</span></h1>
+                <ul class="right hide-on-med-and-down">
+                    <li sec:authorize="isAnonymous()"><a th:href="@{/login}" class="waves-effect waves-block waves-light">
+                        <i class="material-icons large">account_circle</i></a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/login}" class="waves-effect waves-block waves-light">
+                        <i class="material-icons">lock_open</i></a>
+                    </li>
+                    <li sec:authorize="isAnonymous()"><a th:href="@{/help}" class="waves-effect waves-block waves-light">
+                        <i class="material-icons">help</i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div sec:authorize="isAuthenticated()">
+        You are logged as <b sec:authentication="name"></b> with roles <span sec:authentication="authorities"></span>
+        -
+        <form th:action="@{/logout}" method="post" style="display: inline-block;">
+            <input type="submit" value="Sign Out" />
+        </form>
+        <hr />
+    </div>
+    <th:block layout:fragment="content">
+        <p>Page content goes here</p>
+    </th:block>
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Some Title</h5>
+                <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            <div class="col l2 offset-l2 s6">
+                <h6>About</h6>
+                <ul>
+                    <li><a href="" class="grey-text text-lighten-3">Help</a></li>
+                    <li><a href="" class="grey-text text-lighten-3">Contact</a></li>
+                    <li><a href="" class="grey-text text-lighten-3">Suggestions</a></li>
+                </ul>
+            </div>
+            <div class="col l2 s6">
+                <h6>Developer</h6>
+                <ul>
+                    <li><a href="" class="grey-text text-lighten-3">Source</a></li>
+                    <li><a href="" class="grey-text text-lighten-3">Contribute</a></li>
+                    <li><a href="" class="grey-text text-lighten-3">API Docs</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">Made by <a href="">Me </a></div>
+    </div>
+</footer>
+
+<script src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
+<script src="/webjars/materializecss/0.98.1/js/materialize.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="/webjars/datatables/1.10.13/js/dataTables.material.min.js"></script>
+<script th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/js/chartist.min.js}"></script>
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/myjs.js}"></script>
+</body>
+</html>
