@@ -28,11 +28,8 @@ public class CatalogController {
     public String loginIn(@Valid LoginForm loginForm, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-
             return "login/loginPage";
         }
-        //TODO: Authentication
         return "admin";
     }
 
