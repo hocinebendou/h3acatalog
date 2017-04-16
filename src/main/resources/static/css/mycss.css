@@ -25,5 +25,25 @@ a.item-menu {
 }
 
 nav i.material-icons {
-    font-size: 40px;
+    font-size: 32px;
+}
+
+/* tabs color text*/
+.tabs .tab a{
+    color:#00ACC1;
+}
+.tabs .tab a:hover,.tabs .tab a.active {
+    background-color:transparent;
+    color:#008B9B;
+}
+.tabs .tab.disabled a,.tabs .tab.disabled a:hover {
+    color:rgba(102,147,153,0.7);
+}
+.tabs .indicator {
+    background-color:#009BAD;
+}
+
+#result-parse {
+    overflow-y: scroll;
+    height: 200px;
 }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+</head>
+<body>
+
+<div class="section wrapper" layout:fragment="content" style="height: 150px">
+    <aside id="left-sidebar-nav">
+        <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
+            <li class="user-details cyan darken-2">
+                <div class="row">
+                    <div class="col col s4 m4 l4">
+                        <img th:src="@{/img/login.png}" alt="" class="circle responsive-img valign profile-image" />
+                    </div>
+                    <div class="col col s8 m8 l8">
+
+                        <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn"
+                           href="http://demo.geekslabs.com/materialize/v1.1/index.html#"
+                           data-activates="profile-dropdown"><b sec:authentication="name"></b></a>
+                        <p class="user-roal"><span sec:authentication="authorities"></span></p>
+                    </div>
+                </div>
+            </li>
+            <li class="bold">
+                <a th:href="@{/admin}" class="waves-effect waves-cyan">
+                    <i class="material-icons">file_upload</i> Upload CSV</a>
+            </li>
+        </ul>
+    </aside>
+    <div class="row">
+        <div class="col offset-s2 s9 offset-s1 card">
+
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a class="active" href="#check-csv">Check CSV</a></li>
+                    <li class="tab col s3 disabled"><a href="#upload-csv">Upload CSV</a></li>
+                    <li class="tab col s3 disabled"><a href="#done-with-csv">Done!</a></li>
+                </ul>
+            </div>
+            <div id="check-csv" class="col s12">
+                <div class="row">
+                    <div class="section"></div>
+                    <div class="col s6 offset-s1">
+                        <p class="flow-text"><i class="material-icons">file_upload</i>File</p>
+                        <div class="row">
+                            <div class="input-field col s8">
+                                <label for="file">Choose an archive csv file to parse:</label>
+                                <div class="section"></div>
+                                <hr />
+                                <input type="file" id="file" name="file"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn waves-effect waves-light" id="parse-csv" name="parse-csv">
+                                Parse <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col s5">
+                        <p class="flow-text"><i class="material-icons">settings</i>Settings</p>
+                        <div class="row">
+                            <div class="input-field col s3">
+                                <input id="delimiter" name="delimiter" class="validate" type="text" />
+                                <label for="delimiter">Delimiter</label>
+                            </div>
+                            <div class="col s9">
+                                <dfn>The delimiting character. Usually comma or tab. Default is comma</dfn>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s3">
+                                <input id="encoding" name="encoding" class="validate" type="text" />
+                                <label for="encoding">Encoding</label>
+                            </div>
+                            <div class="col s9">
+                                <dfn>Default is specified by the browser (usually UTF-8)</dfn>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <hr class="col s10 offset-s1"/>
+                <div class="row">
+                    <div class="row">
+                        <div class="col s6 offset-s1">
+                            <p class="flow-text"><i class="material-icons">receipt</i>Results</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s10 offset-s1" id="result-parse">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="upload-csv" class="col s12">Test 2</div>
+            <div id="done-with-csv" class="col s12">Test 3</div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

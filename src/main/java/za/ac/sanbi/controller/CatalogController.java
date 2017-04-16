@@ -24,6 +24,12 @@ public class CatalogController {
         return "login/loginPage";
     }
 
+    @RequestMapping("/admin")
+    public String goToAdminPage() {
+        return "admin/adminPage";
+    }
+
+
     @RequestMapping(value = "/login", params = {"enter"}, method = RequestMethod.POST)
     public String loginIn(@Valid LoginForm loginForm, BindingResult bindingResult) {
 
