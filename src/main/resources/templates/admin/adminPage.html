@@ -31,9 +31,13 @@
                 <a th:href="@{/admin}" class="waves-effect waves-cyan">
                     <i class="material-icons">file_upload</i> Upload CSV</a>
             </li>
+            <li class="bold">
+                <a th:href="@{/tracking}" class="waves-effect waves-cyan">
+                    <i class="material-icons">track_changes</i> Track CSV</a>
+            </li>
         </ul>
     </aside>
-    <div class="row">
+    <div class="row" th:if="${error} or ${success}">
         <div class="col offset-s3 s6 offset-s3 card red alert-card" th:if="${error}">
             <div id="errorMessage" class="card-content white-text">
                 <i class="material-icons">error</i>

@@ -67,8 +67,3 @@ div.alert-card p {
 div.alert-card span {
     margin-left: 10px;
 }
-
-img {
-    outline: 1px solid white;
-    outline-offset: -4px;
-}

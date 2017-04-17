@@ -5,8 +5,8 @@ $(function() {
     /* --- VARIABLES --- */
     var inputType = "local";
     var rowCount = 0, errorCount = 0, firstError;
-    var header = ["Column 1", "Column 2", "Column 3", "Column 4"];
-    var columns = ["Column 1", "Column 2"];
+    var header = ["acronym", "title", "design", "description"];
+    var columns = ["acronym", "title"];
     var errorParsing = false;
 
     /* --- MY FUNCTIONS --- */
@@ -60,7 +60,7 @@ $(function() {
     }
 
     function otherCheck(data) {
-        var errHeader = checkHeader(data)
+        var errHeader = checkHeader(data);
         if (errHeader.length === 0) {
             var msgHeader = 'Header columns present: OK.';
             appendToTextarea(msgHeader, false);
