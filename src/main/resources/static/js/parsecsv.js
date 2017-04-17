@@ -10,6 +10,11 @@ $(function() {
     var errorParsing = false;
 
     /* --- MY FUNCTIONS --- */
+
+    function getFileSelected () {
+        return $("#file").prop('files')[0];
+    }
+
     function columnFromMultiArray (index, csvArray) {
         var output = [];
         $.map(csvArray, function (arrayVect) {
@@ -42,7 +47,8 @@ $(function() {
         $.each(columns, function (i, v) {
             var index = data[0].indexOf(v);
             var arrayIndex = columnFromMultiArray(index, data);
-            if($.inArray(undefined, arrayIndex) !== -1) {
+            if ($.inArray(undefined, arrayIndex) !== -1 ||
+                $.inArray("", arrayIndex) !== -1) {
                 errorParsing = true;
                 var msgCol = "Column " + v + " contains undefined values!";
                 appendToTextarea(msgCol, true);
@@ -66,7 +72,17 @@ $(function() {
             return;
         }
     }
+
+    function uploadCSV() {
+        var fileSelected = getFileSelected();
+        var fileName = "<span style='font-weight: bold;'>" + fileSelected.name + "</span>";
+        var fileInfo = "File: " + fileName;
+        $("#file-selected").html(fileInfo);
+        $("#file").clone().appendTo("#file-elem");
+    }
+
     /* --- PAPA PARSE FUNCTIONS --- */
+
     function enableButton() {
         $('#parse-csv').prop('disabled', false);
     }
@@ -118,14 +134,15 @@ $(function() {
 
     $('#parse-csv').click(function () {
 
-        var config = buildConfig();
-        var msgStart = "---------------------------------";
-        appendToTextarea(msgStart, false);
         var fileElem = $('#file');
         if (!fileElem[0].files.length) {
             alert("Please choose your CSV file to parse");
             return enableButton();
         }
+
+        var config = buildConfig();
+        var msgStart = "---------------------------------";
+        appendToTextarea(msgStart, false);
 
         fileElem.parse({
             config: config,
@@ -145,6 +162,7 @@ $(function() {
                     // uncomment if automatically move to the second tab
                     /*$('ul.tabs').tabs();
                     $('ul.tabs').tabs('select_tab', 'upload-csv');*/
+                    uploadCSV();
                 }
             }
         })

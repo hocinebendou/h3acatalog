@@ -16,4 +16,7 @@ $(function() {
         ]
     } );
 
+    $("div.alert-card .close").click(function(){
+        $(this).closest("div.alert-card").fadeOut("slow")
+    });
 });

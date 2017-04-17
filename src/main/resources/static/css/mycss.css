@@ -47,3 +47,28 @@ nav i.material-icons {
     overflow-y: scroll;
     height: 200px;
 }
+
+
+/* ADMIN PAGE UPLODING */
+div.alert-card button {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    position: absolute;
+    right: 10px;
+    top: 23px;
+    border: medium none;
+    color: #ffffff;
+    font-size: 22px;
+}
+
+div.alert-card p {
+    font-size: 16px;
+}
+
+div.alert-card span {
+    margin-left: 10px;
+}
+
+img {
+    outline: 1px solid white;
+    outline-offset: -4px;
+}

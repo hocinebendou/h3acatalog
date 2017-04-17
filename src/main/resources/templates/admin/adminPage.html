@@ -34,13 +34,32 @@
         </ul>
     </aside>
     <div class="row">
+        <div class="col offset-s3 s6 offset-s3 card red alert-card" th:if="${error}">
+            <div id="errorMessage" class="card-content white-text">
+                <i class="material-icons">error</i>
+                <span th:text="${error}"></span>
+            </div>
+            <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="col offset-s3 s6 offset-s3 card light-blue alert-card" th:if="${success}">
+            <div id="successMessage" class="card-content white-text">
+                <i class="material-icons">done</i>
+                <span th:text="${success}"></span>
+            </div>
+            <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
         <div class="col offset-s2 s9 offset-s1 card">
 
             <div class="col s12">
                 <ul class="tabs">
                     <li class="tab col s3"><a class="active" href="#check-csv">Check CSV</a></li>
                     <li class="tab col s3 disabled"><a href="#upload-csv">Upload CSV</a></li>
-                    <li class="tab col s3 disabled"><a href="#done-with-csv">Done!</a></li>
                 </ul>
             </div>
             <div id="check-csv" class="col s12">
@@ -98,9 +117,33 @@
                 </div>
 
             </div>
-            <div id="upload-csv" class="col s12">Test 2</div>
-            <div id="done-with-csv" class="col s12">Test 3</div>
+            <div id="upload-csv" class="col s12">
+                <div class="row">
+                    <div class="section"></div>
+                    <div class="col s8 offset-s2">
+                        <h4 class="indigo-text"><i class="material-icons">file_upload</i> Upload</h4>
+                        <div class="col s8">
+                            <ul class="collection">
+                                <li class="collection-item avatar" style="min-height: 65px; line-height: 2.5rem;">
+                                    <i class="material-icons circle">folder</i>
+                                    <span id="file-selected" style="font-size: 16px; "></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col s4">
+                            <form th:action="@{/upload}" method="post" enctype="multipart/form-data" class="col  s10">
+                                <div id="file-elem" class="input-field" hidden="hidden"></div>
+                                <button class="btn indigo waves-effect waves-light" type="submit" name="save"
+                                        style="margin-top: 5px;">
+                                    Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </form>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

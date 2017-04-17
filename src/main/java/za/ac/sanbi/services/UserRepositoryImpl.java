@@ -30,7 +30,10 @@ public class UserRepositoryImpl implements CustomUserDetailsService {
                 authorities.toArray(new String[authorities.size()]));*/
 
         String[] authorities = {user.getRole()};
-        return new NeoUserDetails(user.getUsername(), user.getPassword(), authorities);
+        NeoUserDetails userNeo = new NeoUserDetails(user.getUsername(), user.getPassword(), authorities);
+        userNeo.setRole(user.getRole());
+
+        return userNeo;
     }
 
     private NeoUserDetails findByLogin(String login) {
