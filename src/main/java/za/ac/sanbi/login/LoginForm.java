@@ -9,16 +9,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class LoginForm {
 
     @NotEmpty
-    private String username;
+    private String userName;
 
     @NotEmpty
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
-    public void setUsername(String email) {
-        this.username = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

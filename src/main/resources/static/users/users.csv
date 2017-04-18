@@ -1,0 +1,6 @@
+username,password,role,grantedAuthorities
+archive,archive,ARCHIVE,ARCHIVE
+gnbiobank,biobank,BIOBANK,BIOBANK
+ngbiobank,biobank,BIOBANK,BIOBANK
+sabiobank,biobank,BIOBANK,BIOBANK
+admin,admin,ADMIN,BIOBANK
