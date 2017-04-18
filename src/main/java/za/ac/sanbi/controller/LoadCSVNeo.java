@@ -26,7 +26,7 @@ public class LoadCSVNeo {
     @RequestMapping("/loadcsv")
     public String loadCSVNeo(@RequestParam("path") String filePath, Model model) {
 
-        String path = "http://localhost:8080/archive/archive_2017-04-17_1720655791805931728.csv";
+        String path = "http://localhost:8080/hocine/archive_2017-04-17_1720655791805931728.csv";
         String query = constructQuery(path);
         runNeoQuery(query);
 

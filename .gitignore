@@ -24,4 +24,4 @@ nbdist/
 .nb-gradle/
 
 ### Upload dirs ###
-archive/
+#src/main/resources/static/hocine/*

@@ -67,3 +67,58 @@ div.alert-card p {
 div.alert-card span {
     margin-left: 10px;
 }
+
+
+/* ADMIN PAGE TRACK */
+button.secondary-content {
+    position: relative;
+    line-height: 1.5rem;
+    margin-top: -25px;
+    color: white;
+    font-weight: bold;
+}
+
+/*task-card*/
+
+ul.task-card label {
+    display: block;
+    color: rgba(0, 0, 0, 0.87);
+    height: auto;
+}
+ul.task-card .task-card-title {
+    margin: 0;
+    color: #fff;
+    font-weight: 300;
+}
+ul.task-card .task-card-date {
+    font-size: 1.0rem;
+    margin: 0;
+    color: #fff;
+}
+ul.task-card .collection-header {
+    padding: 20px;
+}
+ul.task-card .task-cat {
+    padding: 2px 4px;
+    color: #fff;
+    margin-left: 37px;
+    font-weight: 300;
+    font-size: 0.8rem;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+.task-cat {
+    padding: 2px 4px;
+    color: #fff;
+    font-weight: 300;
+    font-size: 0.8rem;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+.collection .collection-item.avatar i.circle {
+    font-size: 28px;
+}
