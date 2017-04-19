@@ -27,14 +27,32 @@
                     </div>
                 </div>
             </li>
-            <li class="bold">
-                <a th:href="@{/admin}" class="waves-effect waves-cyan">
-                    <i class="material-icons">file_upload</i> Upload CSV</a>
-            </li>
-            <li class="bold">
-                <a th:href="@{/track}" class="waves-effect waves-cyan">
-                    <i class="material-icons">track_changes</i> Track CSV</a>
-            </li>
+            
+            <li class="no-padding">
+            	<ul class="collapsible collapsible-accordion">
+            		<li>
+                		<a th:href="@{/admin}" class="collapsible-header waves-effect waves-cyan">
+                    		<i class="material-icons">file_upload</i> Upload CSV</a>
+            		</li>
+            		<li>
+                		<a th:href="@{/track}" class="collapsible-header waves-effect waves-cyan">
+                    		<i class="material-icons">track_changes</i> Track CSV</a>
+            		</li>
+		            <li>
+		            	<a class="collapsible-header waves-effect waves-cyan">
+		            		<i class="material-icons" style="color: #FB8C00;">grade</i>Process Files
+		            	</a>
+		            	<div class="collapsible-body" style="display: block;">
+		            		<ul>
+		            			<li><a href="/track?biobank=archive">Archive</a></li>
+		            			<li><a href="/track?biobank=cls">CLS Biobank</a></li>
+		            			<li><a href="/track?biobank=cln">CLN Biobank</a></li>
+		            			<li><a href="/track?biobank=clg">CLG Biobank</a></li>
+		            		</ul>		
+		           		</div>
+		            </li>
+	            </ul>
+	         </li>
         </ul>
     </aside>
     <div class="row" th:if="${error} or ${success}">

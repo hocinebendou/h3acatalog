@@ -11,7 +11,7 @@ $(function() {
 
   var window_width = $(window).width();
 
-  /*Preloader*/
+  /*Pre-loader*/
   $(window).on('load', function() {
     setTimeout(function() {
       $('body').addClass('loaded');      
