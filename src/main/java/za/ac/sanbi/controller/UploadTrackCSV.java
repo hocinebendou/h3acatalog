@@ -1,7 +1,7 @@
 package za.ac.sanbi.controller;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.core.io.ClassPathResource;
+//import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
@@ -18,9 +18,6 @@ import za.ac.sanbi.track.TrackCSVFiles;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +28,8 @@ import java.util.List;
 @Controller
 public class UploadTrackCSV {
 
-    public static final Resource ARCHIVE_DIR_RAW = new FileSystemResource("./src/main/resources/static/users/archive/raw");
+	//TODO: SELECT RESOURCE BASED ON USERNAME (WRITE A FUNCTION FOR SELECTION)
+    public static final Resource ARCHIVE_DIR_RAW = new FileSystemResource("./users/archive/raw");
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
@@ -52,7 +50,7 @@ public class UploadTrackCSV {
                 throw new IllegalArgumentException("Invalid Role: " + user.getRole());
         }
 
-        Resource fResource = copyFileToDir(file, dir);
+        copyFileToDir(file, dir, user);
         redirectAttributes.addFlashAttribute("success", "File uploaded successfully!");
 
         return "redirect:/admin";
@@ -62,21 +60,14 @@ public class UploadTrackCSV {
     public String trackCSVFiles(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
-        try {
-            File rawFolder = new ClassPathResource("static/users/" + user.getUsername() + "/raw").getFile();
-            List<TrackCSVFiles> rawFiles = listCSVFiles(user, rawFolder, "raw");
-            model.addAttribute("rawFiles", rawFiles);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+    	File rawFolder = new File("./users/" + user.getUsername() + "/raw");
+        List<TrackCSVFiles> rawFiles = listCSVFiles(user, rawFolder, "raw");
+        model.addAttribute("rawFiles", rawFiles);
 
-        try {
-            File processedFolder = new ClassPathResource("static/users/" + user.getUsername() + "/processed").getFile();
-            List<TrackCSVFiles> processedFiles = listCSVFiles(user, processedFolder, "processed");
-            model.addAttribute("processedFiles", processedFiles);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        //File processedFolder = new ClassPathResource("./users/" + user.getUsername() + "/processed").getFile();
+        File processedFolder = new File("./users/" + user.getUsername() + "/processed");
+        List<TrackCSVFiles> processedFiles = listCSVFiles(user, processedFolder, "processed");
+        model.addAttribute("processedFiles", processedFiles);
 
         return "admin/trackPage";
     }
@@ -84,8 +75,8 @@ public class UploadTrackCSV {
     @RequestMapping(value = "/track", params = {"delete"}, method = RequestMethod.POST)
     public String deleteCSVFile(HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException{
         String pathToFileToDelete = request.getParameter("delete");
-        File fileToDelete = new ClassPathResource("static" + pathToFileToDelete).getFile();
-
+        //File fileToDelete = new ClassPathResource("static" + pathToFileToDelete).getFile();
+        File fileToDelete = new File("." + pathToFileToDelete);
         Boolean deleted = false;
         if (fileToDelete.exists())
             deleted = fileToDelete.delete();
@@ -114,10 +105,10 @@ public class UploadTrackCSV {
         return listRet;
     }
 
-    private Resource copyFileToDir(MultipartFile file, Resource dir) throws IOException{
+    private Resource copyFileToDir(MultipartFile file, Resource dir, NeoUserDetails user) throws IOException{
 
         String fileExtension = getFileExtension(file.getOriginalFilename());
-        String prefix =  "archive_" + LocalDate.now().toString() + "_";
+        String prefix =  user.getUsername() + "_" + LocalDate.now().toString() + "_";
         File tempFile = File.createTempFile(prefix, fileExtension, dir.getFile());
         try (InputStream in = file.getInputStream();
              OutputStream out = new FileOutputStream(tempFile)) {

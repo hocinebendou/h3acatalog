@@ -25,3 +25,4 @@ nbdist/
 
 ### Upload dirs ###
 #src/main/resources/static/hocine/*
+users/

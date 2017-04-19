@@ -1,13 +1,15 @@
 package za.ac.sanbi.controller;
 
-import org.neo4j.ogm.model.Result;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import za.ac.sanbi.domain.NeoUserDetails;
 import za.ac.sanbi.repositories.UploadRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,14 +28,17 @@ public class LoadCSVNeo {
 
     @RequestMapping(value = "/track", params = {"process"}, method = RequestMethod.POST)
     public String processCSVNeo(HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception{
-
-        String path = "http://localhost:8080" + request.getParameter("process");
+    	
+    	File file = new File("./" + request.getParameter("process"));
+        String path = "file:///" + file.getAbsolutePath();
         String query = constructQuery(path);
         runNeoQuery(query);
 
-        File file = new ClassPathResource("static" + request.getParameter("process")).getFile();
-        file.renameTo(new File("/users/archive/processed/test.csv"));
-        return "homePage";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
+        file.renameTo(new File("./users/" + user.getUsername() + "/processed/" + file.getName()));
+        
+        return "redirect:/track";
     }
 
     private String constructQuery(String path) {
@@ -49,6 +54,6 @@ public class LoadCSVNeo {
 
     private void runNeoQuery(String query) {
         LinkedHashMap<String, String> paramsQuery = new LinkedHashMap<>();
-        Result result = template.query(query, paramsQuery);
+        template.query(query, paramsQuery);
     }
 }

@@ -1,14 +1,11 @@
 package za.ac.sanbi.services;
 
-import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import za.ac.sanbi.domain.NeoUserDetails;
 import za.ac.sanbi.repositories.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hocine on 2017/04/15.
