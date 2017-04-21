@@ -23,7 +23,7 @@ public class NeoStudy {
     private String title;
     private String description;
 
-    @Relationship(type = "STUDY_DESIGN")
+    @Relationship(type = "STUDY_DESIGN", direction=Relationship.INCOMING)
     private List<NeoDesign> designs = new ArrayList<>();
 
     public NeoStudy() {}

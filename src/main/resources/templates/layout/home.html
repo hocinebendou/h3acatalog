@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+</head>
+<body>
+<div id="basic-form" class="section" layout:fragment="content" style="height: 150px">
+    <th:block layout:fragment="content-search">
+    </th:block>
+    <div class="row">
+      <div class="col s2">
+          <div class="row">
+              <ul class="collection with-header task-card">
+                  <li class="collection-header cyan">
+                      <h4 class="task-card-title">Catalogue Content</h4>
+                      <p class="task-card-date">Last release Apr 26, 2017</p>
+                  </li>
+                  <li class="collection-item dismissable">
+                      <label style="text-decoration: none;">
+                          Studies
+                          <a href="#" class="secondary-content">
+                              <span id="total-studies" class="task-cat teal">0</span></a>
+                      </label>
+                  </li>
+                  <li class="collection-item dismissable">
+                      <label style="text-decoration: none;">
+                          Samples
+                          <a href="#" class="secondary-content">
+                              <span id="total-samples" class="task-cat teal">0</span></a>
+                      </label>
+                  </li>
+              </ul>
+          </div>
+          <div class="row card">
+              <div class="card-content">
+                  <p>The Catalogue database is updated periodically with studies imported from <a href="#">Archive project</a>
+                     with related samples/specimens from the following Biobanks:</p>
+                  <div class="card-tabs">
+                      <ul class="tabs tabs-fixed-width">
+                          <li class="tab"><a href="#test4">CLS</a></li>
+                          <li class="tab"><a class="active" href="#test5">NLS</a></li>
+                          <li class="tab"><a href="#test6">GLS</a></li>
+                      </ul>
+                  </div>
+                  <div class="card-content grey lighten-4">
+                      <div id="test4">Nigeria  <a href="#">Website.com</a></div>
+                      <div id="test5">South Africa <a href="#">Website.com</a></div>
+                      <div id="test6">Ghana <a href="#">Website.com</a></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <th:block layout:fragment="content-home">
+        <p>Page content goes here</p>
+    </th:block>
+  </div>
+</div>
+</body>
+</html>

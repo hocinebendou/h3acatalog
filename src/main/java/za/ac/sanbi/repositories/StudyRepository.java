@@ -6,9 +6,11 @@ import za.ac.sanbi.domain.NeoStudy;
 
 import java.util.Collection;
 
-public interface StudiesRepository extends PagingAndSortingRepository<NeoStudy, Long> {
+public interface StudyRepository extends PagingAndSortingRepository<NeoStudy, Long> {
 	String query = "MATCH (s:NeoStudy) RETURN s";
 	
 	@Query(query)
 	Collection<NeoStudy> findAllStudies();
+	
+	NeoStudy findByAcronym(String title);
 }

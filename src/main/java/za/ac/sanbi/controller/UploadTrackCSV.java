@@ -40,15 +40,13 @@ public class UploadTrackCSV {
     public static final Resource ARCHIVE_DIR_RAW = new FileSystemResource("./users/archive/raw");
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
+    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
 
         if (file.isEmpty() || !isCSV(file)) {
             redirectAttributes.addFlashAttribute("error", "Incorrect file. Please upload a CSV.");
         }
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
-
         Resource dir = null;
         switch (user.getRole()) {
             case "ARCHIVE":
@@ -57,10 +55,14 @@ public class UploadTrackCSV {
             default:
                 throw new IllegalArgumentException("Invalid Role: " + user.getRole());
         }
-
-        copyFileToDir(file, dir, user);
-        redirectAttributes.addFlashAttribute("success", "File uploaded successfully!");
-
+        try {
+	        copyFileToDir(file, dir, user);
+	        redirectAttributes.addFlashAttribute("success", "File uploaded successfully!");
+        } catch(Exception e) {
+        	redirectAttributes.addFlashAttribute("error", "Erro when loading the file!");
+        }
+        redirectAttributes.addAttribute("user", user);
+        
         return "redirect:/admin";
     }
     
