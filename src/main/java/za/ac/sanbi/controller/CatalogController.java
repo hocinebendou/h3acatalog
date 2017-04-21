@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import za.ac.sanbi.domain.NeoStudy;
 import za.ac.sanbi.domain.NeoUserDetails;
+import za.ac.sanbi.repositories.SampleRepository;
 import za.ac.sanbi.repositories.StudyRepository;
 
 
@@ -27,11 +28,17 @@ public class CatalogController {
 	@Autowired 
 	StudyRepository studyRepository;
 	
+	@Autowired 
+	SampleRepository sampleRepository;
+	
     @RequestMapping("/")
     public String goTohomePage(Model model) {
     	Collection<NeoStudy> studies = studyRepository.findAllStudies();
     	List<NeoStudy> listStudies = new ArrayList<>(studies);
-    	
+    	int countStudies = studyRepository.countStudies();
+    	model.addAttribute("countStudies", countStudies);
+    	int countSamples = sampleRepository.countSamples();
+    	model.addAttribute("countSamples", countSamples);
     	model.addAttribute("studies", listStudies);
         return "homePage";
     }
@@ -40,6 +47,8 @@ public class CatalogController {
     public String studyInfo(HttpServletRequest request, Model model) {
     	String studyAcronym = request.getParameter("s");
     	NeoStudy study = studyRepository.findByAcronym(studyAcronym);
+    	int countStudies = studyRepository.countStudies();
+    	model.addAttribute("countStudies", countStudies);
     	model.addAttribute("study", study);
     	return "study/studyPage";
     }

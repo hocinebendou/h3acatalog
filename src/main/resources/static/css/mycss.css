@@ -122,3 +122,30 @@ ul.task-card .task-cat {
 .collection .collection-item.avatar i.circle {
     font-size: 28px;
 }
+
+/*  Home */
+table.dataTable thead tr th{
+	background-color: #00bcd4;
+    border: 1px solid #ddd;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+table.dataTable tbody tr td {
+	border: 1px solid #ddd;
+    font-size: 15px;
+    padding: 9px;
+}
+
+.mdl-button--raised.mdl-button--colored {
+    background: #00bcd4 none repeat scroll 0 0;
+    color: #fff;
+}
+
+.teal {
+	background-color: #e0e0e0 !important;
+}
