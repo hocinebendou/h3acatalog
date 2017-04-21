@@ -45,9 +45,9 @@
 		            	<div class="collapsible-body" style="display: block;">
 		            		<ul>
 		            			<li><a href="/track?biobank=archive">Archive</a></li>
-		            			<li><a href="/track?biobank=cls">CLS Biobank</a></li>
-		            			<li><a href="/track?biobank=cln">CLN Biobank</a></li>
-		            			<li><a href="/track?biobank=clg">CLG Biobank</a></li>
+		            			<li><a href="/track?biobank=sabiobank">CLS Biobank</a></li>
+		            			<li><a href="/track?biobank=ngbiobank">CLN Biobank</a></li>
+		            			<li><a href="/track?biobank=gnbiobank">CLG Biobank</a></li>
 		            		</ul>		
 		           		</div>
 		            </li>
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <button class="btn waves-effect waves-light" id="parse-csv" name="parse-csv">
+                            <button th:class="'btn waves-effect waves-light ' + ${user.role}" id="parse-csv" name="parse-csv">
                                 Parse <i class="material-icons right">send</i>
                             </button>
                         </div>

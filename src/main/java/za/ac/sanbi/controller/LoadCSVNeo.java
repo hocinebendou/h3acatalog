@@ -29,23 +29,40 @@ public class LoadCSVNeo {
     @RequestMapping(value = "/track", params = {"process"}, method = RequestMethod.POST)
     public String processCSVNeo(HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception{
     	
-    	String parameter = request.getParameter("parameter");
+    	String[] parameters = request.getParameter("fileOwnerRole").split("-");
+    	String fileOwner = parameters[0];
+    	String fileRole = parameters[1];
+    	String query = "";
     	File file = new File("./" + request.getParameter("process"));
         String path = "file:///" + file.getAbsolutePath();
-        String query = constructQuery(path);
+        
+        if (fileRole.isEmpty() || !fileRole.equals("ADMIN")) return "redirect:/login?logout";
+        
+    	switch (fileOwner) {
+    		case "archive":
+    			query = constructArchiveQuery(path);
+    			break;
+    		case "sabiobank":
+    		case "ngbiobank":
+    		case "gnbiobank":
+    			query = constructBiobankQuery(path);
+    			break;
+    		default:
+    			break;
+    	}
         runNeoQuery(query);
 
         //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //NeoUserDetails currentUser = (NeoUserDetails) auth.getPrincipal();
-        NeoUserDetails user = userRepository.findByUsername(parameter);
+        NeoUserDetails user = userRepository.findByUsername(fileOwner);
         file.renameTo(new File("./users/" + user.getUsername() + "/processed/" + file.getName()));
         
-        String pathRedirect = "redirect:/track?biobank=" + parameter; 
+        String pathRedirect = "redirect:/track?biobank=" + fileOwner; 
         
         return pathRedirect;
     }
 
-    private String constructQuery(String path) {
+    private String constructArchiveQuery(String path) {
         String query = "";
         query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";
         query += "MERGE (s:NeoStudy {acronym: row.acronym, title: row.title, description: row.description}) ";
@@ -55,7 +72,34 @@ public class LoadCSVNeo {
 
         return query;
     }
-
+    
+    private String constructBiobankQuery(String path) {
+    	String query = "";
+    	query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";  
+    	query += "MATCH(s:NeoStudy {acronym: row.STUDY}) ";
+    	query += "WITH s, row, count(*) AS c "; 
+    	query += "WHERE c = 1 ";
+    	query += "MERGE (p:NeoSample {uniqueSpecId: row.UNIQUE_SPEC_ID}) ";
+    	query += "ON CREATE SET ";
+    	query += "p.country=row.COUNTRY, ";
+    	query += "p.participantId=row.PARTICIPANT_ID, ";
+    	query += "p.gender=row.GENDER, ";
+    	query += "p.study=row.STUDY, ";
+    	query += "p.specimenType=row.SPECIMEN_TYPE, ";
+    	query += "p.species=row.SPECIES, ";
+    	query += "p.collectionDate=row.COLLECTION_DATE, ";
+    	query += "p.ageAtCollection=row.AGE_AT_COLLECTION, ";
+    	query += "p.sampleVolume=row.SAMPLE_VOLUME, ";
+    	query += "p.dnaConcentration=row.DNA_CONCENTRATION, ";
+    	query += "p.dnaPurity_260_280=row.DNA_PURITY_260_280, ";
+    	query += "p.extractionMethod=row.EXTRACTION_METHOD ";
+    	query += "ON MATCH SET ";
+    	query += "p.sampleVolume=row.SAMPLE_VOLUME ";
+    	query += "WITH s, p ";
+    	query += "MERGE (s)-[r:HAS_SAMPLE]->(p)";
+    	
+    	return query;
+    }
     private void runNeoQuery(String query) {
         LinkedHashMap<String, String> paramsQuery = new LinkedHashMap<>();
         template.query(query, paramsQuery);

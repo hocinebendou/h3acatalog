@@ -38,32 +38,32 @@ public class UploadTrackCSV {
 
 	//TODO: SELECT RESOURCE BASED ON USERNAME (WRITE A FUNCTION FOR SELECTION)
     public static final Resource ARCHIVE_DIR_RAW = new FileSystemResource("./users/archive/raw");
-
+    
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
-
-        if (file.isEmpty() || !isCSV(file)) {
+    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
+    	
+    	if (file.isEmpty() || !isCSV(file)) {
             redirectAttributes.addFlashAttribute("error", "Incorrect file. Please upload a CSV.");
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
-        Resource dir = null;
-        switch (user.getRole()) {
-            case "ARCHIVE":
-                dir = ARCHIVE_DIR_RAW;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid Role: " + user.getRole());
-        }
+        
+        Resource dir = userDirectory(user);
+        
         try {
 	        copyFileToDir(file, dir, user);
 	        redirectAttributes.addFlashAttribute("success", "File uploaded successfully!");
         } catch(Exception e) {
         	redirectAttributes.addFlashAttribute("error", "Erro when loading the file!");
         }
-        redirectAttributes.addAttribute("user", user);
+        
+        model.addAttribute("user", user);
         
         return "redirect:/admin";
+    }
+    
+    private Resource userDirectory(NeoUserDetails user) {
+    	return new FileSystemResource("./users/" + user.getUsername() + "/raw");
     }
     
     @Autowired UserRepository userRepository;
@@ -85,7 +85,6 @@ public class UploadTrackCSV {
     	
     	// TODO: REPETED CODE SHOULD BE REWRITED TO FUNCTION
     	try {
-    		
     		rawFolder = new File("./users/" + user.getUsername() + "/raw");
     		List<TrackCSVFiles> rawFiles = listCSVFiles(user.getUsername(), currentUser.getRole(), rawFolder, "raw");
     		model.addAttribute("rawFiles", rawFiles);

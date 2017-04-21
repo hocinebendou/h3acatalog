@@ -5,10 +5,20 @@ $(function() {
     /* --- VARIABLES --- */
     var inputType = "local";
     var rowCount = 0, errorCount = 0, firstError;
-    var header = ["acronym", "title", "design", "description"];
-    var columns = ["acronym", "title"];
     var errorParsing = false;
-
+    
+    var header = [
+    	"COUNTRY", "UNIQUE_SPEC_ID", "PARTICIPANT_ID", "GENDER",
+    	"STUDY", "SPECIMEN_TYPE", "SPECIES", "COLLECTION_DATE",
+    	"AGE_AT_COLLECTION", "SAMPLE_VOLUME", "DNA_CONCENTRATION",
+    	"DNA_PURITY_260_280", "EXTRACTION_METHOD"
+    ];
+    var notNullColumns = [ "UNIQUE_SPEC_ID", "PARTICIPANT_ID", "SAMPLE_VOLUME" ];
+    /* Case for archive data */
+    if ($('#parse-csv').hasClass('ARCHIVE')) {
+    	header = ["acronym", "title", "design", "description"];
+    	notNullColumns = ["acronym", "title"];
+    }
     /* --- MY FUNCTIONS --- */
 
     function getFileSelected () {
@@ -44,7 +54,7 @@ $(function() {
     }
 
     function checkColumns(data) {
-        $.each(columns, function (i, v) {
+        $.each(notNullColumns, function (i, v) {
             var index = data[0].indexOf(v);
             var arrayIndex = columnFromMultiArray(index, data);
             if ($.inArray(undefined, arrayIndex) !== -1 ||
@@ -67,7 +77,7 @@ $(function() {
             checkColumns(data);
         } else {
             errorParsing = true;
-            var msgHeader = 'Columns: ' + msgHeader + ' are not present!';
+            var msgHeader = 'Columns: ' + errHeader + ' are not present!';
             appendToTextarea(msgHeader, true);
             return;
         }
