@@ -8,8 +8,8 @@
     <meta charset="utf-8" />
 </head>
 <body>
-<div id="basic-form" class="col s9" layout:fragment="content-home" style="height: 150px">
-  <div class="card-panel col s12">
+<div class="col s9" layout:fragment="content-home">
+  <div class="card-panel row">
   	<div class="row">
   		<div class="col s8">
   			<h4 class="indigo-text header" th:text="${study.acronym} + ' Study'"></h4>
@@ -52,15 +52,19 @@
                    <tr>
                        <th>ID</th>
                        <th>Gender</th>
-                       <th>Specimen</th>
-                       <th>Date</th>
+                       <th>Type</th>
                        <th>Volume</th>
                        <th>Available</th>
                    </tr>
                    </thead>
                    <tbody>
-                   <tr></tr>
-                   
+                   <tr th:each="sample : ${study.samples}">
+					   <td th:text="${sample.uniqueSpecId}"></td>
+					   <td th:text="${sample.gender}"></td>
+					   <td th:text="${sample.specimenType}"></td>
+					   <td th:text="${sample.sampleVolume}"></td>
+					   <td th:text="${sample.ageAtCollection}"></td>
+                   </tr>
                    </tbody>
                </table>
   			</div>

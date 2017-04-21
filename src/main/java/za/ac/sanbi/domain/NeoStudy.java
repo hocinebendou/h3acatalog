@@ -26,6 +26,9 @@ public class NeoStudy {
     @Relationship(type = "STUDY_DESIGN", direction=Relationship.INCOMING)
     private List<NeoDesign> designs = new ArrayList<>();
 
+    @Relationship(type = "HAS_SAMPLE", direction=Relationship.OUTGOING)
+    private List<NeoSample> samples = new ArrayList<>();
+    
     public NeoStudy() {}
 
     public String getAcronym() {
@@ -42,5 +45,9 @@ public class NeoStudy {
 
     public List<NeoDesign> getDesigns() {
         return designs;
+    }
+    
+    public List<NeoSample> getSamples() {
+        return samples;
     }
 }

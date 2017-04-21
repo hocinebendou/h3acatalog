@@ -3,12 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/default">
 <head>
-    <title>Home</title>
+    <title>Home1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta charset="utf-8" />
 </head>
 <body>
-<div id="basic-form" class="section" layout:fragment="content" style="height: 150px">
+
+<div id="basic-form" class="row" layout:fragment="content" style="height: 150px">
     <th:block layout:fragment="content-search">
     </th:block>
     <div class="row">
@@ -56,8 +57,9 @@
       </div>
       <th:block layout:fragment="content-home">
         <p>Page content goes here</p>
-    </th:block>
+      </th:block>
   </div>
 </div>
+
 </body>
 </html>
