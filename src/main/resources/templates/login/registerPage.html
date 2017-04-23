@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/admin">
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+</head>
+
+<body>
+
+<div align="center" class="row" layout:fragment="content-admin">
+    <div class="section"></div>
+        <div id="login-page" class="row" style="width: 350px;">
+            <div id="errorMessage" class="card-panel red lighten-2" th:if="${param.error}">
+                <span class="card-title">Invalid user name or password</span>
+            </div>
+            <div class="col s12 z-depth-4 card-panel">
+	            <form th:action="@{/register}" th:object="${registerForm}" method="post">
+					<div class="row">
+			            <div class="input-field col s12 center">
+			            	<img th:src="@{/img/login.png}" alt="" class="circle responsive-img valign profile-image-login" />
+			            	<p class="center login-form-text">Registration restricted to certain user's categories</p>
+       					</div>
+        			</div>
+        			<div class="row margin">
+			          	<div class="input-field col s12">
+			            	<i class="material-icons prefix">person_outline</i>
+			            	<input class='validate' type='text' id='username' th:field="${registerForm.username}" />
+			            	<label for="username" class="left-align">Username</label>
+			          	</div>
+			        </div>
+			        <div class="row margin">
+			          	<div class="input-field col s12">
+			            	<i class="material-icons prefix">email</i>
+			            	<input class="validate" id="email" type="email" th:field="${registerForm.email}" />
+			            	<label for="email" class="left-align">Email</label>
+			          	</div>
+			        </div>
+					<div class="row margin">
+			          	<div class="input-field col s12">
+			            	<i class="material-icons prefix">lock_outline</i>
+			            	<input class='validate' type='password' id='password' th:field="${registerForm.password}" />
+			            	<label for="password" class="left-align">Password</label>
+			          	</div>
+			        </div>
+			        <div class="row margin">
+			          	<div class="input-field col s12">
+			            	<i class="material-icons prefix">business</i>
+			            	<input class='validate' type='text' id='biobankname' th:field="${registerForm.biobankname}" />
+			            	<label for="biobankname" class="left-align">Biobank Name</label>
+			          	</div>
+			        </div>
+			        <div class="row margin">
+			        	<div class="input-field col s12 ">
+			        		<i class="material-icons prefix" style="margin-left:-150px;">warning</i>
+                        	<select id="user-role" th:field="${registerForm.role}" >
+                            	<option value="BIOBANK" selected="selected">Biobank</option>
+                            	<option value="ARCHIVE">Archive</option>
+                            	<option value="ADMIN">Admin</option>
+                       		 </select>
+                        	<label for="study_design">Select a role</label>
+                    	</div>
+			        </div>
+	                <br />
+	                <div class="row">
+			          	<button class="btn col s12 waves-effect waves-light indigo" type="submit" name="adduser">Create
+	                        <i class="material-icons right">send</i>
+	                    </button>
+			        </div>
+	                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+	            </form>
+	            <div class="section"></div>
+			</div>
+        </div>
+</div>
+<div class="section"></div>
+</body>
+
+</html>

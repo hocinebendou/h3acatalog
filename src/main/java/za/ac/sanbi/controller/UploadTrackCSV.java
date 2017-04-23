@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +36,6 @@ import za.ac.sanbi.track.TrackCSVFiles;
  */
 @Controller
 public class UploadTrackCSV {
-
-	//TODO: SELECT RESOURCE BASED ON USERNAME (WRITE A FUNCTION FOR SELECTION)
-    public static final Resource ARCHIVE_DIR_RAW = new FileSystemResource("./users/archive/raw");
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
@@ -86,7 +84,7 @@ public class UploadTrackCSV {
     	// TODO: REPETED CODE SHOULD BE REWRITED TO FUNCTION
     	try {
     		rawFolder = new File("./users/" + user.getUsername() + "/raw");
-    		List<TrackCSVFiles> rawFiles = listCSVFiles(user.getUsername(), currentUser.getRole(), rawFolder, "raw");
+    		List<TrackCSVFiles> rawFiles = listCSVFiles(user.getUsername(), user.getRole(), rawFolder, "raw");
     		model.addAttribute("rawFiles", rawFiles);
     	} catch(NullPointerException e) {
     		System.err.println("Err: Folder of files to process is empty!");
@@ -95,13 +93,16 @@ public class UploadTrackCSV {
     	try {
 	        //File processedFolder = new ClassPathResource("./users/" + user.getUsername() + "/processed").getFile();
 	        processedFolder = new File("./users/" + user.getUsername() + "/processed");
-	        List<TrackCSVFiles> processedFiles = listCSVFiles(user.getUsername(), currentUser.getRole(), processedFolder, "processed");
+	        List<TrackCSVFiles> processedFiles = listCSVFiles(user.getUsername(), user.getRole(), processedFolder, "processed");
 		    model.addAttribute("processedFiles", processedFiles);
     	} catch(NullPointerException e) {
     		System.err.println("Err: Folder of files processed is empty!");
     	}
     	
+    	Collection<NeoUserDetails> users = userRepository.findAll();
+    	
     	model.addAttribute("user", currentUser);
+    	model.addAttribute("users", users);
     	
         return "admin/trackPage";
     }

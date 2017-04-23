@@ -1,5 +1,6 @@
 package za.ac.sanbi.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -28,9 +29,11 @@ import za.ac.sanbi.domain.NeoDesign;
 import za.ac.sanbi.domain.NeoSample;
 import za.ac.sanbi.domain.NeoStudy;
 import za.ac.sanbi.domain.NeoUserDetails;
+import za.ac.sanbi.login.RegisterForm;
 import za.ac.sanbi.repositories.DesignRepository;
 import za.ac.sanbi.repositories.SampleRepository;
 import za.ac.sanbi.repositories.StudyRepository;
+import za.ac.sanbi.repositories.UserRepository;
 import za.ac.sanbi.searchform.SearchForm;
 import za.ac.sanbi.searchform.SearchFormSession;
 
@@ -40,6 +43,9 @@ import za.ac.sanbi.searchform.SearchFormSession;
  */
 @Controller
 public class CatalogController {
+	
+	@Autowired 
+	UserRepository userRepository;
 	
 	@Autowired 
 	StudyRepository studyRepository;
@@ -120,14 +126,48 @@ public class CatalogController {
     public String goToLoginPage() {
         return "login/loginPage";
     }
-
+    
+    @RequestMapping("/register")
+    public String goToRegisterPage(RegisterForm registerForm, Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
+        Collection<NeoUserDetails> users = userRepository.findAll();
+        
+        model.addAttribute("user", user);
+        model.addAttribute("users", users);
+        
+        return "login/registerPage";
+    }
+    
+    @RequestMapping(value = "/register", params = {"adduser"})
+    public String registerNewUser(@Valid RegisterForm registerForm, RedirectAttributes redirectAttributes) {
+    	
+    	userRepository.addEditUser(registerForm.getUsername(), 
+    							   registerForm.getEmail(), 
+    							   registerForm.getPassword(), 
+    							   registerForm.getBiobankname(), 
+    							   registerForm.getRole());
+    	String rawPath = "./users/" + registerForm.getUsername() + "/raw";
+    	String processedPath = "./users/" + registerForm.getUsername() + "/processed";
+    	File rawDir = new File(rawPath);
+    	File processedDir = new File(processedPath);
+    	rawDir.mkdirs();
+    	processedDir.mkdirs();
+        redirectAttributes.addFlashAttribute("success", "User created successfully!");
+        
+        return "redirect:/register";
+    }
+    
+    
     @RequestMapping("/admin")
     public String goToAdminPage(Model model) {
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
-        model.addAttribute("user", user);
+        Collection<NeoUserDetails> users = userRepository.findAll();
         
+        model.addAttribute("user", user);
+        model.addAttribute("users", users);
         return "admin/adminPage";
     }
     

@@ -32,19 +32,18 @@ public class LoadCSVNeo {
     	String[] parameters = request.getParameter("fileOwnerRole").split("-");
     	String fileOwner = parameters[0];
     	String fileRole = parameters[1];
+    	String userRole = parameters[2];
     	String query = "";
     	File file = new File("./" + request.getParameter("process"));
         String path = "file:///" + file.getAbsolutePath();
         
-        if (fileRole.isEmpty() || !fileRole.equals("ADMIN")) return "redirect:/login?logout";
+        if (fileRole.isEmpty() || !userRole.equals("ADMIN")) return "redirect:/logout";
         
-    	switch (fileOwner) {
-    		case "archive":
+    	switch (fileRole) {
+    		case "ARCHIVE":
     			query = constructArchiveQuery(path);
     			break;
-    		case "sabiobank":
-    		case "ngbiobank":
-    		case "gnbiobank":
+    		case "BIOBANK":
     			query = constructBiobankQuery(path);
     			break;
     		default:
@@ -52,8 +51,6 @@ public class LoadCSVNeo {
     	}
         runNeoQuery(query);
 
-        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        //NeoUserDetails currentUser = (NeoUserDetails) auth.getPrincipal();
         NeoUserDetails user = userRepository.findByUsername(fileOwner);
         file.renameTo(new File("./users/" + user.getUsername() + "/processed/" + file.getName()));
         

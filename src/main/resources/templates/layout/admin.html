@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title>Home1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+</head>
+<body>
+
+<div class="section wrapper" layout:fragment="content" style="height: 150px">
+	<aside id="left-sidebar-nav">
+        <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
+            <li class="user-details cyan darken-2">
+                <div class="row">
+                    <div class="col col s4 m4 l4">
+                        <img th:src="@{/img/login.png}" alt="" class="circle responsive-img valign profile-image" />
+                    </div>
+                    <div class="col col s8 m8 l8">
+
+                        <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn"
+                           href="http://demo.geekslabs.com/materialize/v1.1/index.html#"
+                           data-activates="profile-dropdown"><b sec:authentication="name"></b></a>
+                        <p class="user-roal"><span sec:authentication="authorities"></span></p>
+                    </div>
+                </div>
+            </li>
+            
+            <li class="no-padding">
+            	<ul class="collapsible collapsible-accordion">
+            		<li>
+                		<a th:href="@{/admin}" class="collapsible-header waves-effect waves-cyan">
+                    		<i class="material-icons">file_upload</i> Upload CSV</a>
+            		</li>
+            		<li>
+                		<a th:href="@{/track}" class="collapsible-header waves-effect waves-cyan">
+                    		<i class="material-icons">track_changes</i> Track CSV</a>
+            		</li>
+            		<li th:if="${user.role} == 'ADMIN'">
+                		<a th:href="@{/register}" class="collapsible-header waves-effect waves-cyan">
+                    		<i class="material-icons">person_outline</i> Add User</a>
+            		</li>
+		            <li th:if="${user.role} == 'ADMIN'">
+		            	<a class="collapsible-header waves-effect waves-cyan">
+		            		<i class="material-icons" style="color: #FB8C00;">grade</i>Process Files
+		            	</a>
+		            	<div class="collapsible-body" style="display: block;">
+		            		<ul>
+		            			<li th:each="us : ${users}" th:if="${us.role} != 'ADMIN'">
+		            				<a th:href="'/track?biobank=' + ${us.username}" th:text="${us.username}"></a>
+		            			</li>
+		            		</ul>		
+		           		</div>
+		            </li>
+	            </ul>
+	         </li>
+        </ul>
+    </aside>
+    <div class="row" th:if="${error} or ${success}">
+        <div class="col offset-s3 s6 offset-s3 card red alert-card" th:if="${error}">
+            <div id="errorMessage" class="card-content white-text">
+                <i class="material-icons">error</i>
+                <span th:text="${error}"></span>
+            </div>
+            <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="col offset-s3 s6 offset-s3 card light-blue alert-card" th:if="${success}">
+            <div id="successMessage" class="card-content white-text">
+                <i class="material-icons">done</i>
+                <span th:text="${success}"></span>
+            </div>
+            <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    </div>
+    <th:block layout:fragment="content-admin">
+    </th:block>
+</div>
+
+</body>
+</html>
