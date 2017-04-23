@@ -37,7 +37,7 @@
                 		<a th:href="@{/track}" class="collapsible-header waves-effect waves-cyan">
                     		<i class="material-icons">track_changes</i> Track CSV</a>
             		</li>
-		            <li>
+		            <li th:if="${user.role} == 'ADMIN'">
 		            	<a class="collapsible-header waves-effect waves-cyan">
 		            		<i class="material-icons" style="color: #FB8C00;">grade</i>Process Files
 		            	</a>

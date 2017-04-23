@@ -101,6 +101,8 @@ public class UploadTrackCSV {
     		System.err.println("Err: Folder of files processed is empty!");
     	}
     	
+    	model.addAttribute("user", currentUser);
+    	
         return "admin/trackPage";
     }
 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import za.ac.sanbi.domain.NeoDesign;
+import za.ac.sanbi.domain.NeoSample;
 import za.ac.sanbi.domain.NeoStudy;
 import za.ac.sanbi.domain.NeoUserDetails;
 import za.ac.sanbi.repositories.DesignRepository;
@@ -95,16 +96,6 @@ public class CatalogController {
     	return "redirect:/search?advance=advance";
     }
     
-    private void setModelAttributeHomePage(Model model, Collection<NeoStudy> studies) {
-    	int countStudies = studyRepository.countStudies();
-    	model.addAttribute("countStudies", countStudies);
-    	int countSamples = sampleRepository.countSamples();
-    	model.addAttribute("countSamples", countSamples);
-    	model.addAttribute("studies", studies);
-    	Collection<NeoDesign> designs = designRepository.findAll();
-    	model.addAttribute("designs", designs);
-    }
-    
     @RequestMapping("/study")
     public String studyInfo(HttpServletRequest request, Model model) {
     	String studyAcronym = request.getParameter("s");
@@ -113,6 +104,14 @@ public class CatalogController {
     	model.addAttribute("countStudies", countStudies);
     	int countSamples = sampleRepository.countSamples();
     	model.addAttribute("countSamples", countSamples);
+    	
+    	for (NeoSample sample : study.getSamples()) {
+    		if (Double.parseDouble(sample.getSampleVolume()) > 0) {
+    			sample.setSampleAvailable("Yes");
+    		}else {
+    			sample.setSampleAvailable("No");
+    		}
+    	}
     	model.addAttribute("study", study);
     	return "study/studyPage";
     }
@@ -133,6 +132,16 @@ public class CatalogController {
     }
     
     @Autowired Session template;  
+    
+    private void setModelAttributeHomePage(Model model, Collection<NeoStudy> studies) {
+    	int countStudies = studyRepository.countStudies();
+    	model.addAttribute("countStudies", countStudies);
+    	int countSamples = sampleRepository.countSamples();
+    	model.addAttribute("countSamples", countSamples);
+    	model.addAttribute("studies", studies);
+    	Collection<NeoDesign> designs = designRepository.findAll();
+    	model.addAttribute("designs", designs);
+    }
     
     private LinkedHashMap<String, String> removeNullParameters(Map<String, String> params) {
 		LinkedHashMap<String, String> paramsQuery = new LinkedHashMap<>();

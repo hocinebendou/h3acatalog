@@ -25,6 +25,7 @@ public class NeoSample {
 	private String dnaConcentration;
 	private String dnaPurity_260_280;
 	private String extractionMethod;
+	private String sampleAvailable;
 	
 	public NeoSample() {}
 
@@ -78,4 +79,11 @@ public class NeoSample {
 		return extractionMethod;
 	}
 	
+	public String getSampleAvailable() {
+		return sampleAvailable;
+	}
+	
+	public void setSampleAvailable(String available) {
+		this.sampleAvailable = available;
+	}
 }
