@@ -72,23 +72,33 @@ public class CatalogController {
         return "redirect:/search";
     }
     
+    private Collection<NeoStudy> showAllStudies () {
+    	searchFormSession.clearForm();
+		Collection<NeoStudy> studies = studyRepository.findAllStudies();
+		
+		return studies;
+    }
+    
     @RequestMapping("/search")
     public String goToSearchPage(@RequestParam(name="advance", defaultValue="") String advance, Model model) {
+    	Collection<NeoStudy> studies = new ArrayList<>();
     	if (advance.isEmpty()) {
-    		searchFormSession.clearForm();
-    		Collection<NeoStudy> studies = studyRepository.findAllStudies();
-    		setModelAttributeHomePage(model, studies);
+    		studies = showAllStudies();
     	}else {
     		SearchForm searchForm = searchFormSession.toForm();
     		final Map<String, String> parameterValues = new LinkedHashMap<>();
         	parameterValues.put("studyName", searchForm.getStudyName());
-        	parameterValues.put("design", searchForm.getDesign());
-        	
+        	parameterValues.put("design", searchForm.getDesign());      	
         	String query = constructQuery(parameterValues);
-        	final Map<String, String> queryParameters = removeNullParameters(parameterValues);
-        	Collection<NeoStudy> studies = runNeoQuery(query, queryParameters);
-        	setModelAttributeHomePage(model, studies);
+        	if (query.isEmpty()) {
+        		studies = showAllStudies();
+        	}else {
+	        	final Map<String, String> queryParameters = removeNullParameters(parameterValues);
+	        	studies = runNeoQuery(query, queryParameters);
+        	}
     	}
+    	setModelAttributeHomePage(model, studies);
+    	
     	return "homePage";
     }
     
