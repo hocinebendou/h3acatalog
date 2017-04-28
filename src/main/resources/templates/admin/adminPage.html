@@ -24,10 +24,17 @@
                 <div class="col s6 offset-s1">
                     <p class="flow-text"><i class="material-icons">file_upload</i>File</p>
                     <div class="row">
-                        <div class="input-field col s8">
+                    	<div th:if="${ user.role } == 'ARCHIVE'" class="input-field col s6">
+	                        <select id="file-type">
+	                            <option value="study" selected="selected">Study</option>
+	                            <option value="individual">Individual</option>
+	                        </select>
+	                        <label for="file-type">Type of the file to upload</label>
+                    	</div>
+                        <div class="input-field col s8" style="border: 1px solid; padding-bottom: 10px; border-radius:1em; border-color: #90caf9;">
                             <label for="file">Choose an archive csv file to parse:</label>
                             <div class="section"></div>
-                            <hr />
+                            <div class="section"></div>
                             <input type="file" id="file" name="file"/>
                         </div>
                     </div>
@@ -89,6 +96,7 @@
                     <div class="col s4">
                         <form th:action="@{/upload}" method="post" enctype="multipart/form-data" class="col  s10">
                             <div id="file-elem" class="input-field" hidden="hidden"></div>
+                            <input id="type-file-selected" hidden="hidden" name="fileType" value="sample" />
                             <button class="btn indigo waves-effect waves-light" type="submit" name="save"
                                     style="margin-top: 5px;">
                                 Submit

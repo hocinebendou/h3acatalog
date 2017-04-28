@@ -13,7 +13,7 @@ public class NeoSample {
 	@GraphId
     private Long id;
 	
-	private String uniqueSpecId;
+	private String sampleId;
 	private String country;
 	private String participantId;
 	private String gender;
@@ -31,8 +31,8 @@ public class NeoSample {
 
 	// getters
 	
-	public String getUniqueSpecId() {
-		return uniqueSpecId;
+	public String getSampleId() {
+		return sampleId;
 	}
 	
 	public String getCountry() {

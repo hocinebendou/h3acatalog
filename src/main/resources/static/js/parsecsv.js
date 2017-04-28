@@ -16,11 +16,30 @@ $(function() {
     var notNullColumns = [ "UNIQUE_SPEC_ID", "PARTICIPANT_ID", "SAMPLE_VOLUME" ];
     /* Case for archive data */
     if ($('#parse-csv').hasClass('ARCHIVE')) {
-    	header = ["acronym", "title", "design", "description"];
-    	notNullColumns = ["acronym", "title"];
+    	archiveColumns();
     }
+    $("#file-type").change(function() {
+    	archiveColumns();
+    });
     /* --- MY FUNCTIONS --- */
-
+    
+    function archiveColumns () {
+    	var fileType = $("#file-type option:selected").val();
+    	console.log(fileType);
+    	switch(fileType) {
+			case "study":
+				header = ["acronym", "title", "design", "description"];
+				notNullColumns = ["acronym", "title"];
+				break;
+			case "individual":
+				header = ["sample_id", "acronym", "species", "sex", "ethnicity"];
+				notNullColumns = ["sample_id", "acronym"];
+				break;
+			default:
+				break;
+		}
+    }
+    
     function getFileSelected () {
         return $("#file").prop('files')[0];
     }
@@ -89,6 +108,9 @@ $(function() {
         var fileInfo = "File: " + fileName;
         $("#file-selected").html(fileInfo);
         $("#file").clone().appendTo("#file-elem");
+        // set the selected file type option to the hidden input
+        var typeFile = $("#file-type").val();
+        $("#type-file-selected").val(typeFile);
     }
 
     /* --- PAPA PARSE FUNCTIONS --- */

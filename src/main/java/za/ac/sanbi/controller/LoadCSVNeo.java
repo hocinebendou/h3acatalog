@@ -41,7 +41,7 @@ public class LoadCSVNeo {
         
     	switch (fileRole) {
     		case "ARCHIVE":
-    			query = constructArchiveQuery(path);
+    			query = constructArchiveQuery(path, file);
     			break;
     		case "BIOBANK":
     			query = constructBiobankQuery(path);
@@ -59,41 +59,44 @@ public class LoadCSVNeo {
         return pathRedirect;
     }
 
-    private String constructArchiveQuery(String path) {
-        String query = "";
-        query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";
-        query += "MERGE (s:NeoStudy {acronym: row.acronym, title: row.title, description: row.description}) ";
-        query += "MERGE (d:NeoDesign {name: row.design})";
-        query += "WITH s, d, row ";
-        query += "MERGE (d)-[r:STUDY_DESIGN]->(s)";
-
+    private String constructArchiveQuery(String path, File file) {
+    	String fileType = file.getName().split("_")[1];
+    	String query = "";
+    	if (fileType.equals("study")) {
+	        query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";
+	        query += "MERGE (s:NeoStudy {acronym: row.acronym, title: row.title, description: row.description}) ";
+	        query += "MERGE (d:NeoDesign {name: row.design}) ";
+	        query += "WITH s, d, row ";
+	        query += "MERGE (d)-[r:STUDY_DESIGN]->(s)";
+    	} else if (fileType.equals("individual")) {
+    		query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";
+    		query += "MATCH(s:NeoStudy {acronym: row.acronym}) ";
+    		query += "WITH s, row, count(*) AS c ";
+    		query += "WHERE c = 1 ";
+    		query += "MERGE (p:NeoSample {sampleId: row.sample_id}) ";
+    		query += "ON CREATE SET ";
+    		query += "p.species = row.species, ";
+    		query += "p.gender = row.sex ";
+    		query += "MERGE (e:NeoEthnicity {name: row.ethnicity}) ";
+    		query += "MERGE (p)-[re:HAS_ETHNICITY]->(e) ";
+    		query += "MERGE (s)-[r:HAS_SAMPLE]->(p) ";
+    	}
         return query;
     }
     
     private String constructBiobankQuery(String path) {
     	String query = "";
     	query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";  
-    	query += "MATCH(s:NeoStudy {acronym: row.STUDY}) ";
-    	query += "WITH s, row, count(*) AS c "; 
-    	query += "WHERE c = 1 ";
-    	query += "MERGE (p:NeoSample {uniqueSpecId: row.UNIQUE_SPEC_ID}) ";
-    	query += "ON CREATE SET ";
+    	query += "MATCH(p:NeoSample {sampleId: row.PARTICIPANT_ID}) ";
+    	query += "SET ";
     	query += "p.country=row.COUNTRY, ";
-    	query += "p.participantId=row.PARTICIPANT_ID, ";
-    	query += "p.gender=row.GENDER, ";
-    	query += "p.study=row.STUDY, ";
     	query += "p.specimenType=row.SPECIMEN_TYPE, ";
-    	query += "p.species=row.SPECIES, ";
     	query += "p.collectionDate=row.COLLECTION_DATE, ";
     	query += "p.ageAtCollection=row.AGE_AT_COLLECTION, ";
     	query += "p.sampleVolume=row.SAMPLE_VOLUME, ";
     	query += "p.dnaConcentration=row.DNA_CONCENTRATION, ";
     	query += "p.dnaPurity_260_280=row.DNA_PURITY_260_280, ";
     	query += "p.extractionMethod=row.EXTRACTION_METHOD ";
-    	query += "ON MATCH SET ";
-    	query += "p.sampleVolume=row.SAMPLE_VOLUME ";
-    	query += "WITH s, p ";
-    	query += "MERGE (s)-[r:HAS_SAMPLE]->(p)";
     	
     	return query;
     }

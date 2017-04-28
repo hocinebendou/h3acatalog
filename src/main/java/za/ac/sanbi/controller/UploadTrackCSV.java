@@ -38,7 +38,7 @@ import za.ac.sanbi.track.TrackCSVFiles;
 public class UploadTrackCSV {
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
+    public String onUpload(MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) {
     	
     	if (file.isEmpty() || !isCSV(file)) {
             redirectAttributes.addFlashAttribute("error", "Incorrect file. Please upload a CSV.");
@@ -46,16 +46,18 @@ public class UploadTrackCSV {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         NeoUserDetails user = (NeoUserDetails) auth.getPrincipal();
         
+        String fileType = request.getParameter("fileType");
+        
         Resource dir = userDirectory(user);
         
         try {
-	        copyFileToDir(file, dir, user);
+	        copyFileToDir(file, fileType, dir, user);
 	        redirectAttributes.addFlashAttribute("success", "File uploaded successfully!");
         } catch(Exception e) {
         	redirectAttributes.addFlashAttribute("error", "Erro when loading the file!");
         }
         
-        model.addAttribute("user", user);
+        //model.addAttribute("user", user);
         
         return "redirect:/admin";
     }
@@ -136,10 +138,12 @@ public class UploadTrackCSV {
         return listRet;
     }
 
-    private Resource copyFileToDir(MultipartFile file, Resource dir, NeoUserDetails user) throws IOException{
+    private Resource copyFileToDir(MultipartFile file, String fileType, Resource dir, NeoUserDetails user) throws IOException{
 
         String fileExtension = getFileExtension(file.getOriginalFilename());
-        String prefix =  user.getUsername() + "_" + LocalDate.now().toString() + "_";
+        fileType = fileType.isEmpty()? "_" : "_" + fileType + "_";
+        
+        String prefix =  user.getUsername() + fileType + LocalDate.now().toString() + "_";
         File tempFile = File.createTempFile(prefix, fileExtension, dir.getFile());
         try (InputStream in = file.getInputStream();
              OutputStream out = new FileOutputStream(tempFile)) {

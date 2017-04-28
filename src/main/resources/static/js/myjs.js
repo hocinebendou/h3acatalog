@@ -21,11 +21,11 @@ $(function() {
         $(this).closest("div.alert-card").fadeOut("slow")
     });
 
-    $("#process-csv").click(function () {
+    $("button[id^='process-csv']").click(function () {
         $("input[name='delete']").remove();
     });
 
-    $("#delete-csv").click(function () {
+    $("button[id^='delete-csv']").click(function () {
         $("input[name='process']").remove();
     })
 });

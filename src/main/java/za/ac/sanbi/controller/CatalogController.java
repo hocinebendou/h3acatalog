@@ -122,7 +122,7 @@ public class CatalogController {
     	model.addAttribute("countSamples", countSamples);
     	
     	for (NeoSample sample : study.getSamples()) {
-    		if (Double.parseDouble(sample.getSampleVolume()) > 0) {
+    		if (sample.getSampleVolume() != null && Double.parseDouble(sample.getSampleVolume()) > 0) {
     			sample.setSampleAvailable("Yes");
     		}else {
     			sample.setSampleAvailable("No");

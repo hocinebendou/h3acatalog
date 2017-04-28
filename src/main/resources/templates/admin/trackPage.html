@@ -18,14 +18,14 @@
                         <h4 class="task-card-title">File to Process</h4>
                         <p class="task-card-date">Use this panel to delete erroneous files</p>
                     </li>
-                    <li class="collection-item dismissable li-delete" th:each="f : ${ rawFiles }">
+                    <li class="collection-item dismissable li-delete" th:each="f,i : ${ rawFiles }">
                         <form action="/track" method="post">
                             <label th:text="${ f.fileName }" style="text-decoration: none;"></label>
                             <input class="validate" name="delete" th:value="${ f.filePath }" hidden="hidden" />
                             <input class="validate" name="process" th:value="${ f.filePath }" hidden="hidden" />
                             <input class="validate" name="fileOwnerRole" th:value="${ f.fileOwner } + '-' + ${f.fileRole} + '-' + ${user.role}" hidden="hidden" />
-                            <button th:if="${ user.role }== 'ADMIN' " id="process-csv" class="secondary-content indigo" type="submit" style="margin-right: 70px;">process</button>
-                            <button id="delete-csv" class="secondary-content red" type="submit">delete</button>
+                            <button th:if="${ user.role }== 'ADMIN' " th:id="'process-csv-' + ${i.index}" class="secondary-content indigo" type="submit" style="margin-right: 70px;">process</button>
+                            <button th:id="'delete-csv-' + ${i.index}" class="secondary-content red" type="submit">delete</button>
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         </form>
                     </li>
