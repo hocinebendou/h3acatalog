@@ -36,6 +36,7 @@ import za.ac.sanbi.repositories.StudyRepository;
 import za.ac.sanbi.repositories.UserRepository;
 import za.ac.sanbi.searchform.SearchForm;
 import za.ac.sanbi.searchform.SearchFormSession;
+import za.ac.sanbi.utils.SummaryCaseCtl;
 
 
 /**
@@ -120,17 +121,50 @@ public class CatalogController {
     	model.addAttribute("countStudies", countStudies);
     	int countSamples = sampleRepository.countSamples();
     	model.addAttribute("countSamples", countSamples);
+    	// summary study samples
+    	SummaryCaseCtl summary = new SummaryCaseCtl();
     	
     	for (NeoSample sample : study.getSamples()) {
-    		if (sample.getSampleVolume() != null && Double.parseDouble(sample.getSampleVolume()) > 0) {
-    			sample.setSampleAvailable("Yes");
-    		}else {
-    			sample.setSampleAvailable("No");
+    		switch(sample.getCaseControl()) {
+    			case "Case":
+    				updateSampleSummary(sample, summary, "Case");
+    				break;
+    			case "Control":
+    				updateSampleSummary(sample, summary, "Control");
+    				break;
+    			default:
+    				break;
     		}
     	}
+    	model.addAttribute("summary", summary);
     	model.addAttribute("study", study);
     	return "study/studyPage";
     }
+    
+    private void updateSampleSummary(NeoSample sample, SummaryCaseCtl summary, String caseControl) {
+    	if (sample.getSampleVolume() != null && Double.parseDouble(sample.getSampleVolume()) > 0) {
+    		if (caseControl.equals("Case")) {
+    			summary.setCasesWithVolume(summary.getCasesWithVolume() + 1);
+    			summary.setCasesVolume(summary.getCasesVolume() + Double.parseDouble(sample.getSampleVolume()));
+    		}else {
+    			summary.setCtlsWithVolume(summary.getCtlsWithVolume() + 1);
+    			summary.setCtlsVolume(summary.getCtlsVolume() + Double.parseDouble(sample.getSampleVolume()));
+    		}
+			sample.setSampleAvailable("Yes");
+    	}else {
+			sample.setSampleAvailable("No");
+		}
+    	if (caseControl.equals("Case")) {
+    		summary.setCountCases(summary.getCountCases() + 1);
+    		if (sample.getGender().equals("Male")) summary.setCountCasesMale(summary.getCountCasesMale() + 1);
+    		else if (sample.getGender().equals("Female")) summary.setCountCasesFemale(summary.getCountCasesFemale() + 1);
+    	}else {
+    		summary.setCountCtls(summary.getCountCtls() + 1);
+    		if (sample.getGender().equals("Male")) summary.setCountCtlsMale(summary.getCountCtlsMale() + 1);
+    		else if (sample.getGender().equals("Female")) summary.setCountCtlsFemale(summary.getCountCtlsFemale() + 1);
+    	}
+    }
+    
     
     @RequestMapping("/login")
     public String goToLoginPage() {

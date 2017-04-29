@@ -16,7 +16,29 @@ $(function() {
         ],
     	"bLengthChange": false
     } );
-
+    
+    $('#case-summary').DataTable( {
+        columnDefs:[
+        	{"type": "num"}
+        ],
+    	'paging': false,
+        'ordering': false,
+        'info': false,
+        'bFilter': false,
+    	"bLengthChange": false
+    } );
+    
+    $('#ctl-summary').DataTable( {
+        columnDefs:[
+        	{"type": "num"}
+        ],
+    	'paging': false,
+        'ordering': false,
+        'info': false,
+        'bFilter': false,
+    	"bLengthChange": false
+    } );
+    
     $("div.alert-card .close").click(function(){
         $(this).closest("div.alert-card").fadeOut("slow")
     });
@@ -27,5 +49,5 @@ $(function() {
 
     $("button[id^='delete-csv']").click(function () {
         $("input[name='process']").remove();
-    })
+    });
 });

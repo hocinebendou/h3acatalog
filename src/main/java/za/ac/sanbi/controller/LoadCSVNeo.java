@@ -76,6 +76,7 @@ public class LoadCSVNeo {
     		query += "MERGE (p:NeoSample {sampleId: row.sample_id}) ";
     		query += "ON CREATE SET ";
     		query += "p.species = row.species, ";
+    		query += "p.caseControl = row.case_control, ";
     		query += "p.gender = row.sex ";
     		query += "MERGE (e:NeoEthnicity {name: row.ethnicity}) ";
     		query += "MERGE (p)-[re:HAS_ETHNICITY]->(e) ";

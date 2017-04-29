@@ -14,6 +14,7 @@ public class NeoSample {
     private Long id;
 	
 	private String sampleId;
+	private String caseControl;
 	private String country;
 	private String participantId;
 	private String gender;
@@ -33,6 +34,10 @@ public class NeoSample {
 	
 	public String getSampleId() {
 		return sampleId;
+	}
+	
+	public String getCaseControl() {
+		return caseControl;
 	}
 	
 	public String getCountry() {

@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import za.ac.sanbi.domain.NeoUserDetails;
 import za.ac.sanbi.repositories.UserRepository;
-import za.ac.sanbi.track.TrackCSVFiles;
+import za.ac.sanbi.utils.TrackCSVFiles;
 
 /**
  * Created by hocine on 2017/04/18.
