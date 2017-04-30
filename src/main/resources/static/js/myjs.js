@@ -50,4 +50,61 @@ $(function() {
     $("button[id^='delete-csv']").click(function () {
         $("input[name='process']").remove();
     });
+    
+    //charts
+    $("div.summary-charts > a").click(function() {
+    	var containerId = $(this).closest("div").next().attr('id');
+    	$('#' + containerId).fadeToggle();
+    	var id = $(this).attr('id');
+    	console.log(containerId);
+    	$.get("/api/study/" + id, function (data) {
+    		if (!data ) return;
+    		var countries = [];
+    		var series = [];
+    		$.each(data, function(k, v){
+    			countries.push(k);
+    			series.push(v);
+    		});
+    		Highcharts.chart(containerId, {
+    			chart: {
+    		        type: 'column'
+    		    },
+    		    title: {
+    		        text: 'Samples by countries'
+    		    },
+    		    xAxis: {
+    		        categories: countries,
+    		        title: {
+    		            text: null
+    		        }
+    		    },
+    		    yAxis: {
+    		        min: 0,
+    		        title: {
+    		            text: 'Number of samples'
+    		        }
+    		    },
+    		    legend: {
+    		        shadow:false
+    		    },
+    		    tooltip: {
+    		        shared: true
+    		    },
+    		    plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+    		    series: [{
+    		    	name : 'Number samples by country',
+    		    	color: '#1E6FA8',
+    		    	data: series,
+    		    	pointPadding: 0.3,
+                    pointPlacement: 0
+    		    }]
+    		});
+    	});
+    });
 });

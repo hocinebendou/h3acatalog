@@ -14,7 +14,8 @@ public interface SampleRepository extends PagingAndSortingRepository<NeoSample, 
 	@Query(queryCount)
 	int countSamples();
 	
-	String queryCase = "MATCH (s:NeoSample {acronym: {acronym}}) -[r:HAS_SAMPLE]-> (p:NeoSample {caseControl: {name}}) RETURN p";
+	// Not used anywhere (just an example for now)
+	String queryCase = "MATCH (s:NeoStudy {acronym: {acronym}}) -[r:HAS_SAMPLE]-> (p:NeoSample {caseControl: {name}}) RETURN p";
 	@Query(queryCase)
-	Collection<NeoSample> studySamplesCaseControl(@Param("acronym") String acronym, @Param("name") String name);
+	Collection<NeoSample> samplesByDesign(@Param("acronym") String acronym, @Param("name") String name);
 }

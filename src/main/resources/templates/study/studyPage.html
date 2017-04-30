@@ -52,8 +52,8 @@
   				<li class="tab col s3"><a href="#ctl-tab">Control</a></li>
   			</ul>
   			<div id="case-tab">
-  			    <div class="section">
-	  			    <table id="case-summary" class="display" cellspacing="0" width="100%">
+  			    <div class="row">
+	  			    <table id="case-summary" class="display" style="cellspacing:0; width:100%;">
 	                    <thead>
 		                    <tr>
 		                        <th>Total</th>
@@ -74,11 +74,20 @@
 	                   	</tbody>
                    	</table>
                 </div>
+                <div class="row summary-charts">
+                <!-- TODO: THINK LATER HOW TO CHANGE THIS ID. PEOPLES MAY USE THE UNDERSCORE IN THE ACRONYM THEN THE SPLIT WILL NOT WORK! -->
+               		<a th:id="${study.acronym} + '_Case'" class="btn-floating red" style="margin-left: 10px; margin-top: -40px;">
+               			<i class="material-icons">add</i>
+           			</a>
+                </div>
+                <div class="row" id="container-case">
+                	<!-- <div class="col s6" id="container-case" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
+                </div>
   			</div>
   			
   			<div id="ctl-tab">
-  				<div class="section">
-	  			    <table id="ctl-summary" class="display" cellspacing="0" width="100%">
+  				<div class="row">
+	  			    <table id="ctl-summary" class="display" style="cellspacing:0; width:100%;">
 	                    <thead>
 		                    <tr>
 		                        <th>Total</th>
@@ -99,6 +108,12 @@
 	                   	</tbody>
                    	</table>
                 </div>
+                <div class="row summary-charts">
+               		<a th:id="${study.acronym} + '_Control'" class="btn-floating red" style="margin-left: 10px; margin-top: -40px;">
+               			<i class="material-icons">add</i>
+           			</a>
+                </div>
+                <div class="row" id="container-ctl"></div>
   			</div>
   		</div>
   	</div>
@@ -107,7 +122,7 @@
   		<div class="col s12">
   			<h4 class="indigo-text header">Samples</h4>
   			<div class="section">
-  				<table id="example" class="display" cellspacing="0" width="100%">
+  				<table id="example" class="display" style="cellspacing:0; width:100%;">
                    <thead>
                    <tr>
                        <th>ID</th>
