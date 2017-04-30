@@ -60,6 +60,7 @@
 		                        <th>Male</th>
 		                        <th>Female</th>
 		                        <th>Total Volume</th>
+		                        <th>Biobank</th>
 		                        <th>Available</th>
 		                   	 </tr>
 	                   	</thead>
@@ -69,6 +70,7 @@
 	                   			<td th:text="${summary.countCasesMale}"></td>
 	                   			<td th:text="${summary.countCasesFemale}"></td>
 	                   			<td th:text="${summary.casesVolume}"></td>
+	                   			<td th:text="${summary.biobankName}"></td>
 	                   			<td th:text="${summary.casesWithVolume} + ' From ' + ${summary.countCases}"></td>
 	                   		</tr>
 	                   	</tbody>
@@ -94,6 +96,7 @@
 		                        <th>Male</th>
 		                        <th>Female</th>
 		                        <th>Total Volume</th>
+		                        <th>Biobank</th>
 		                        <th>Available</th>
 		                   	 </tr>
 	                   	</thead>
@@ -103,6 +106,7 @@
 	                   			<td th:text="${summary.countCtlsMale}"></td>
 	                   			<td th:text="${summary.countCtlsFemale}"></td>
 	                   			<td th:text="${summary.ctlsVolume}"></td>
+	                   			<td th:text="${summary.biobankName}"></td>
 	                   			<td th:text="${summary.ctlsWithVolume} + ' From ' + ${summary.countCtls}"></td>
 	                   		</tr>
 	                   	</tbody>
@@ -129,6 +133,7 @@
                        <th>Gender</th>
                        <th>Type</th>
                        <th>Volume</th>
+                       <th>Biobank</th>
                        <th>Available</th>
                    </tr>
                    </thead>
@@ -138,6 +143,7 @@
 					   <td th:text="${sample.gender}"></td>
 					   <td th:text="${sample.specimenType}"></td>
 					   <td th:text="${sample.sampleVolume}"></td>
+					   <td th:text="${sample.biobankName}"></td>
 					   <td th:if="${sample.sampleAvailable} == 'Yes'" th:text="${sample.sampleAvailable}" class="green-text darken-4"></td>
 					   <td th:if="${sample.sampleAvailable} == 'No'" th:text="${sample.sampleAvailable}" class="deep-orange-text darken-4"></td>
                    </tr>

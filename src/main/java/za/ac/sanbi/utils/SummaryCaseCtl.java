@@ -13,6 +13,7 @@ public class SummaryCaseCtl {
 	private int countCtlsFemale;
 	private double ctlsVolume;
 	private int ctlsWithVolume;
+	private String biobankName;
 	
 	public SummaryCaseCtl() {
 		countCases = 0;
@@ -23,6 +24,7 @@ public class SummaryCaseCtl {
 		countCtls = 0;
 		countCtlsMale = 0;
 		countCtlsFemale = 0;
+		biobankName = "";
 	}
 	
 	public SummaryCaseCtl(int countCases, int countCasesMale, int countCasesFemale, double casesVolume, int casesWithVolume,
@@ -78,6 +80,10 @@ public class SummaryCaseCtl {
 	public int getCtlsWithVolume() {
 		return ctlsWithVolume;
 	}
+	
+	public String getBiobankName() {
+		return biobankName;
+	}
 
 	// setters
 	public void setCountCases(int countCases) {
@@ -120,4 +126,7 @@ public class SummaryCaseCtl {
 		this.ctlsWithVolume = ctlsWithVolume;
 	}
 	
+	public void setBiobankName(String biobankName) {
+		this.biobankName = biobankName;
+	}
 }

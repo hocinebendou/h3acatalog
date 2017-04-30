@@ -1,5 +1,7 @@
 package za.ac.sanbi.controller;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,9 @@ public class StudyController {
     	// summary study samples
     	SummaryCaseCtl summary = new SummaryCaseCtl();
     	
-    	for (NeoSample sample : study.getSamples()) {
+    	Collection<NeoSample> samples = study.getSamples();
+    	
+    	for (NeoSample sample : samples) {
     		switch(sample.getCaseControl()) {
     			case "Case":
     				updateSampleSummary(sample, summary, "Case");
@@ -45,6 +49,9 @@ public class StudyController {
     				break;
     		}
     	}
+    	if(!samples.isEmpty())
+    		summary.setBiobankName(samples.iterator().next().getBiobankName());
+    	
     	model.addAttribute("summary", summary);
     	model.addAttribute("study", study);
     	return "study/studyPage";

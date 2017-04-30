@@ -33,25 +33,25 @@ public class LoadCSVNeo {
     	String fileOwner = parameters[0];
     	String fileRole = parameters[1];
     	String userRole = parameters[2];
-    	String query = "";
-    	File file = new File("./" + request.getParameter("process"));
-        String path = "file:///" + file.getAbsolutePath();
         
         if (fileRole.isEmpty() || !userRole.equals("ADMIN")) return "redirect:/logout";
         
+        File file = new File("./" + request.getParameter("process"));
+        String path = "file:///" + file.getAbsolutePath();
+        NeoUserDetails user = userRepository.findByUsername(fileOwner);
+    	String query = "";
     	switch (fileRole) {
     		case "ARCHIVE":
     			query = constructArchiveQuery(path, file);
     			break;
     		case "BIOBANK":
-    			query = constructBiobankQuery(path);
+    			query = constructBiobankQuery(path, user.getBiobankname());
     			break;
     		default:
     			break;
     	}
         runNeoQuery(query);
 
-        NeoUserDetails user = userRepository.findByUsername(fileOwner);
         file.renameTo(new File("./users/" + user.getUsername() + "/processed/" + file.getName()));
         
         String pathRedirect = "redirect:/track?biobank=" + fileOwner; 
@@ -85,7 +85,7 @@ public class LoadCSVNeo {
         return query;
     }
     
-    private String constructBiobankQuery(String path) {
+    private String constructBiobankQuery(String path, String biobankName) {
     	String query = "";
     	query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";  
     	query += "MATCH(p:NeoSample {sampleId: row.PARTICIPANT_ID}) ";
@@ -97,7 +97,8 @@ public class LoadCSVNeo {
     	query += "p.sampleVolume=row.SAMPLE_VOLUME, ";
     	query += "p.dnaConcentration=row.DNA_CONCENTRATION, ";
     	query += "p.dnaPurity_260_280=row.DNA_PURITY_260_280, ";
-    	query += "p.extractionMethod=row.EXTRACTION_METHOD ";
+    	query += "p.extractionMethod=row.EXTRACTION_METHOD, ";
+    	query += "p.biobankName=\"" + biobankName + "\"";
     	
     	return query;
     }
