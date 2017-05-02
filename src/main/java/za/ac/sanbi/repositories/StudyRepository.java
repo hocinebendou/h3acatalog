@@ -12,7 +12,7 @@ public interface StudyRepository extends PagingAndSortingRepository<NeoStudy, Lo
 	@Query(query)
 	Collection<NeoStudy> findAllStudies();
 	
-	// query one study. Both of the queries below are identical
+	// find study by acronym
 	NeoStudy findByAcronym(String title);
 	
 	// query count studies

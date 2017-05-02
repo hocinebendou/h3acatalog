@@ -2,6 +2,7 @@ package za.ac.sanbi.domain;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -14,12 +15,8 @@ public class NeoSample {
     private Long id;
 	
 	private String sampleId;
-	private String caseControl;
-	private String country;
 	private String participantId;
-	private String gender;
 	private String study;
-	private String specimenType;
 	private String collectionDate;
 	private String ageAtCollection;
 	private String sampleVolume;
@@ -29,36 +26,36 @@ public class NeoSample {
 	private String sampleAvailable;
 	private String biobankName;
 	
+	@Relationship(type="HAS_CHARACTER", direction=Relationship.OUTGOING)
+    private NeoCharacter character = new NeoCharacter();
+
+    @Relationship(type="HAS_GENDER", direction=Relationship.OUTGOING)
+    private NeoGender gender = new NeoGender();
+    
+    @Relationship(type="HAS_COUNTRY", direction=Relationship.OUTGOING)
+    private NeoCountry country = new NeoCountry();
+    
+    @Relationship(type="HAS_SPECTYPE", direction=Relationship.OUTGOING)
+    private NeoSpecType specType = new NeoSpecType();
+    
 	public NeoSample() {}
 
 	// getters
 	
+	public Long getId() {
+		return id;
+	}
+	
 	public String getSampleId() {
 		return sampleId;
-	}
-	
-	public String getCaseControl() {
-		return caseControl;
-	}
-	
-	public String getCountry() {
-		return country;
 	}
 
 	public String getParticipantId() {
 		return participantId;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
 	public String getStudy() {
 		return study;
-	}
-
-	public String getSpecimenType() {
-		return specimenType;
 	}
 
 	public String getCollectionDate() {
@@ -93,6 +90,23 @@ public class NeoSample {
 		return biobankName;
 	}
 	
+	public NeoCharacter getCharacter() {
+		return character;
+	}
+	
+	public NeoCountry getCountry() {
+		return country;
+	}
+	
+	public NeoGender getGender() {
+		return gender;
+	}
+	
+	public NeoSpecType getSpecType() {
+		return specType;
+	}
+	
+	// setters
 	public void setSampleAvailable(String available) {
 		this.sampleAvailable = available;
 	}

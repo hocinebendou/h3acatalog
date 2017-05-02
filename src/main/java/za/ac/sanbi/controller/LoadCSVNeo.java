@@ -75,10 +75,12 @@ public class LoadCSVNeo {
     		query += "WHERE c = 1 ";
     		query += "MERGE (p:NeoSample {sampleId: row.sample_id}) ";
     		query += "ON CREATE SET ";
-    		query += "p.species = row.species, ";
-    		query += "p.caseControl = row.case_control, ";
-    		query += "p.gender = row.sex ";
+    		query += "p.species = row.species ";
+    		query += "MERGE (d:NeoCharacter {name: row.case_control}) ";
+    		query += "MERGE (g:NeoGender {name: row.sex}) ";
     		query += "MERGE (e:NeoEthnicity {name: row.ethnicity}) ";
+    		query += "MERGE (p)-[rc:HAS_CHARACTER]->(d) ";
+    		query += "MERGE (p)-[rg:HAS_GENDER]->(g) ";
     		query += "MERGE (p)-[re:HAS_ETHNICITY]->(e) ";
     		query += "MERGE (s)-[r:HAS_SAMPLE]->(p) ";
     	}
@@ -90,8 +92,6 @@ public class LoadCSVNeo {
     	query += "LOAD CSV WITH HEADERS FROM \"" + path + "\" AS row ";  
     	query += "MATCH(p:NeoSample {sampleId: row.PARTICIPANT_ID}) ";
     	query += "SET ";
-    	query += "p.country=row.COUNTRY, ";
-    	query += "p.specimenType=row.SPECIMEN_TYPE, ";
     	query += "p.collectionDate=row.COLLECTION_DATE, ";
     	query += "p.ageAtCollection=row.AGE_AT_COLLECTION, ";
     	query += "p.sampleVolume=row.SAMPLE_VOLUME, ";
@@ -99,9 +99,14 @@ public class LoadCSVNeo {
     	query += "p.dnaPurity_260_280=row.DNA_PURITY_260_280, ";
     	query += "p.extractionMethod=row.EXTRACTION_METHOD, ";
     	query += "p.biobankName=\"" + biobankName + "\"";
+    	query += "MERGE (c:NeoCountry {name: row.COUNTRY}) ";
+    	query += "MERGE (t:NeoSpecType {name: row.SPECIMEN_TYPE}) ";
+    	query += "MERGE (p)-[rc:HAS_COUNTRY]->(c) ";
+    	query += "MERGE (p)-[rt:HAS_SPECTYPE]->(t)";
     	
     	return query;
     }
+    
     private void runNeoQuery(String query) {
         LinkedHashMap<String, String> paramsQuery = new LinkedHashMap<>();
         template.query(query, paramsQuery);

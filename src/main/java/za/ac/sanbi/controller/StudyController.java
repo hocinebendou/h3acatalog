@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,9 @@ public class StudyController {
 	@Autowired 
 	StudyRepository studyRepository;
 	
+	@Autowired
+	Session session;
+	
 	@RequestMapping("/study")
     public String studyInfo(HttpServletRequest request, Model model) {
     	String studyAcronym = request.getParameter("s");
@@ -37,8 +41,9 @@ public class StudyController {
     	
     	Collection<NeoSample> samples = study.getSamples();
     	
-    	for (NeoSample sample : samples) {
-    		switch(sample.getCaseControl()) {
+    	for (NeoSample s : samples) {
+    		NeoSample sample = session.load(s.getClass(), s.getId());
+    		switch(sample.getCharacter().getName()) {
     			case "Case":
     				updateSampleSummary(sample, summary, "Case");
     				break;
@@ -72,12 +77,12 @@ public class StudyController {
 		}
     	if (caseControl.equals("Case")) {
     		summary.setCountCases(summary.getCountCases() + 1);
-    		if (sample.getGender().equals("Male")) summary.setCountCasesMale(summary.getCountCasesMale() + 1);
-    		else if (sample.getGender().equals("Female")) summary.setCountCasesFemale(summary.getCountCasesFemale() + 1);
+    		if (sample.getGender().getName().equals("Male")) summary.setCountCasesMale(summary.getCountCasesMale() + 1);
+    		else if (sample.getGender().getName().equals("Female")) summary.setCountCasesFemale(summary.getCountCasesFemale() + 1);
     	}else {
     		summary.setCountCtls(summary.getCountCtls() + 1);
-    		if (sample.getGender().equals("Male")) summary.setCountCtlsMale(summary.getCountCtlsMale() + 1);
-    		else if (sample.getGender().equals("Female")) summary.setCountCtlsFemale(summary.getCountCtlsFemale() + 1);
+    		if (sample.getGender().getName().equals("Male")) summary.setCountCtlsMale(summary.getCountCtlsMale() + 1);
+    		else if (sample.getGender().getName().equals("Female")) summary.setCountCtlsFemale(summary.getCountCtlsFemale() + 1);
     	}
     }
     

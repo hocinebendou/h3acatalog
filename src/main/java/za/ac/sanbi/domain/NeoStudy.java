@@ -8,6 +8,8 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.neo4j.ogm.session.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by hocine on 2017/04/17.
@@ -15,7 +17,9 @@ import java.util.List;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @NodeEntity
 public class NeoStudy {
-
+	
+	@Autowired Session session;
+	
     @GraphId
     private Long id;
 

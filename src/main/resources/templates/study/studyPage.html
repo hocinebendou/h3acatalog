@@ -140,8 +140,8 @@
                    <tbody>
                    <tr th:each="sample,i : ${study.samples}">
 					   <td th:text="${i.index}"></td>
-					   <td th:text="${sample.gender}"></td>
-					   <td th:text="${sample.specimenType}"></td>
+					   <td th:text="${sample.gender.name}"></td>
+					   <td th:text="${sample.specType.name}"></td>
 					   <td th:text="${sample.sampleVolume}"></td>
 					   <td th:text="${sample.biobankName}"></td>
 					   <td th:if="${sample.sampleAvailable} == 'Yes'" th:text="${sample.sampleAvailable}" class="green-text darken-4"></td>
