@@ -53,9 +53,19 @@ $(function() {
     
     //charts
     $("div.summary-charts > a").click(function() {
-    	var containerId = $(this).closest("div").next().attr('id');
-    	$('#' + containerId).fadeToggle();
     	var id = $(this).attr('id');
+    	var containerId = $(this).closest("div").next().attr('id');
+    	$('#' + containerId).fadeToggle("fast", function() {
+    		if($('#' + containerId).is(':visible')) {
+    			columnChart(id, containerId);
+    		}else {
+    			$('#' + containerId).empty();
+    		}
+    	});
+    });
+    
+    function columnChart(id, containerId) {
+    	console.log(id);
     	console.log(containerId);
     	$.get("/api/study/" + id, function (data) {
     		if (!data ) return;
@@ -106,5 +116,5 @@ $(function() {
     		    }]
     		});
     	});
-    });
+    }
 });
