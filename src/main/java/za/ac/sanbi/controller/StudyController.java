@@ -1,5 +1,8 @@
 package za.ac.sanbi.controller;
 
+/**
+ * This class especially used for creating the column chart in the study page.
+ */
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;

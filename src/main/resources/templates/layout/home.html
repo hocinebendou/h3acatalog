@@ -23,14 +23,14 @@
                   <li class="collection-item dismissable">
                       <label style="text-decoration: none; font-size: 14px; font-weight: normal;">
                           Studies
-                          <a href="#" class="secondary-content">
+                          <a th:href="@{/search}" class="secondary-content">
                               <span id="total-studies" class="task-cat teal" th:text="${countStudies}" style="font-size: 14px; padding-left:12px; padding-right: 12px; color:#000">0</span></a>
                       </label>
                   </li>
                   <li class="collection-item dismissable">
                       <label style="text-decoration: none; font-size: 14px;">
-                          Samples
-                          <a href="#" class="secondary-content">
+                      	  Samples
+                          <a th:href="@{/search/samples}" class="secondary-content">
                               <span id="total-samples" class="task-cat teal" th:text="${countSamples}" style="font-size: 14px; padding-left:12px; padding-right: 12px; color:#000"></span></a>
                       </label>
                   </li>

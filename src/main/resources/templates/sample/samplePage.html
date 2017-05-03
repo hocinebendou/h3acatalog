@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/home">
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+</head>
+<body>
+<div  class="col s9" layout:fragment="content-home">
+	<div class="row">
+        <div class="card-panel col s12" id="search-sample-form">
+			<h4 class="header2">Search Samples</h4>
+			<form th:action="@{/search/samples}" method="post" th:object="${searchSampleForm}">
+				<div class="row">
+                    <div class="input-field col s6">
+                        <select id="sample-country" th:field="${searchSampleForm.country}">
+                        	<option value="" selected="selected"></option>
+                            <option th:each="c : ${searchSampleForm.countries}" th:value="${c.name}" th:text="${c.name}"></option>
+                        </select>
+                        <label for="sample-country">Select a Country</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="sample-gender" th:field="${searchSampleForm.gender}">
+                        	<option value="" selected="selected"></option>
+                            <option th:each="g : ${searchSampleForm.genders}" th:value="${g.name}" th:text="${g.name}"></option>
+                        </select>
+                        <label for="sample-gender">Select a Gender</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select id="sample-spectype" th:field="${searchSampleForm.specType}">
+                        	<option value="" selected="selected"></option>
+                            <option th:each="t : ${searchSampleForm.specTypes}" th:value="${t.name}" th:text="${t.name}"></option>
+                        </select>
+                        <label for="sample-spectype">Select a Specimen type</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="sample-character" th:field="${searchSampleForm.character}">
+                        	<option value="" selected="selected"></option>
+                            <option th:each="r : ${searchSampleForm.characters}" th:value="${r.name}" th:text="${r.name}"></option>
+                        </select>
+                        <label for="sample-character">Select a Sample Design</label>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Search
+                    <i class="material-icons right">send</i>
+                </button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			</form>
+			<div class="section"></div>
+		</div>
+	</div>
+	<div class="card-panel col s12">
+        <h4 class="header2">Summary Samples</h4>
+        <div>
+            <table id="samples-summary" class="display" style="cellspacing:0; width:100%;">
+            	<thead>
+                    <tr>
+                        <th>Total</th>
+                        <th>Case</th>
+                        <th>Control</th>
+                        <th>Male</th>
+                        <th>Female</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                		<td th:text="${Total}"></td>
+                		<td th:text="${Case}"></td>
+                		<td th:text="${Control}"></td>
+                		<td th:text="${Male}"></td>
+                		<td th:text="${Female}"></td>
+                	</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

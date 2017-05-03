@@ -19,5 +19,21 @@ public interface SampleRepository extends PagingAndSortingRepository<NeoSample, 
 	@Query(queryCase)
 	Collection<NeoSample> samplesByDesign(@Param("acronym") String acronym, @Param("name") String name);
 	
+	// return samples
+	Collection<NeoSample> findAll();
 	
+	// find samples by character
+	String queryCharacter = "MATCH (c: NeoCharacter {name: {name}}) <-[r:HAS_CHARACTER]- (s: NeoSample) RETURN s, c, r";
+	@Query(queryCharacter)
+	Collection<NeoSample> samplesByCharacter(@Param("name") String name);
+	
+	// find samples by gender
+	String queryGender = "MATCH (g: NeoGender {name: {name}}) <-[r:HAS_GENDER]- (s: NeoSample) RETURN s, g, r";
+	@Query(queryGender)
+	Collection<NeoSample> samplesByGender(@Param("name") String name);
+	
+	// find samples by country
+	String queryCountry = "MATCH (c: NeoCountry {name: {name}}) <-[r:HAS_COUNTRY]- (s:NeoSample) RETURN s, c, r";
+	@Query(queryCountry)
+	Collection<NeoSample> samplesByCountry(@Param("name") String name);
 }

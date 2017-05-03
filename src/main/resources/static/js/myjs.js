@@ -39,6 +39,17 @@ $(function() {
     	"bLengthChange": false
     } );
     
+    $('#samples-summary').DataTable( {
+        columnDefs:[
+        	{"type": "num"}
+        ],
+    	'paging': false,
+        'ordering': false,
+        'info': false,
+        'bFilter': false,
+    	"bLengthChange": false
+    } );
+    
     $("div.alert-card .close").click(function(){
         $(this).closest("div.alert-card").fadeOut("slow")
     });
@@ -51,7 +62,7 @@ $(function() {
         $("input[name='process']").remove();
     });
     
-    //charts
+    // Column chart
     $("div.summary-charts > a").click(function() {
     	var id = $(this).attr('id');
     	var containerId = $(this).closest("div").next().attr('id');
@@ -65,8 +76,6 @@ $(function() {
     });
     
     function columnChart(id, containerId) {
-    	console.log(id);
-    	console.log(containerId);
     	$.get("/api/study/" + id, function (data) {
     		if (!data ) return;
     		var countries = [];

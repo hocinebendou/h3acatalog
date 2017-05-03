@@ -19,6 +19,4 @@ public class SearchForm {
 	public void setDesign(String design) {
 		this.design = design;
 	}
-	
-	
 }
