@@ -36,4 +36,9 @@ public interface SampleRepository extends PagingAndSortingRepository<NeoSample, 
 	String queryCountry = "MATCH (c: NeoCountry {name: {name}}) <-[r:HAS_COUNTRY]- (s:NeoSample) RETURN s, c, r";
 	@Query(queryCountry)
 	Collection<NeoSample> samplesByCountry(@Param("name") String name);
+	
+	// find samples by specimen type
+	String querySpecType = "MATCH (t: NeoSpecType {name: {name}}) <-[r:HAS_SPECTYPE]- (s:NeoSample) RETURN s, t, r";
+	@Query(querySpecType)
+	Collection<NeoSample> samplesBySpecType(@Param("name") String name);
 }

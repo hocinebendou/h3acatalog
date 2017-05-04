@@ -84,16 +84,14 @@ public class SampleController {
     		final Map<String, String> parameterValues = new LinkedHashMap<>();
         	parameterValues.put("country", form.getCountry());
         	parameterValues.put("gender", form.getGender());
+        	parameterValues.put("specType", form.getSpecType());
+        	parameterValues.put("character", form.getCharacter());
         	query = constructQuery(parameterValues);
         	final Map<String, String> queryParameters = removeNullParameters(parameterValues);
         	Collection<NeoSample> samples = runNeoQuery(query, queryParameters);
         	for (NeoSample s : samples) {
         		NeoSample sample = session.load(s.getClass(), s.getId());
         		total = samples.size();
-        		System.out.println("----------------------------");
-            	System.out.println("----------------------------");
-            	System.out.println(sample.getGender());
-            	System.out.println("----------------------------");
         		if (sample.getGender().getName().equals("Male")) totalMale ++;
         		else totalFemale ++;
         		if (sample.getCharacter().getName().equals("Case")) totalCase ++;
@@ -140,6 +138,8 @@ public class SampleController {
 		String query = "";
 		String queryCountry = "";
 		String queryGender = "";
+		String querySpecType = "";
+		String queryCharacter = "";
 		for (Map.Entry<String, String> entry : parameterValues.entrySet()) {
 			if(entry.getValue() != "") {
 				switch (entry.getKey()) {
@@ -152,14 +152,28 @@ public class SampleController {
 						else
 							queryGender += "MATCH (g: NeoGender {name: {gender}}) <-[rg:HAS_GENDER]- (s) ";
 						break;
+					case "specType":
+						if (queryCountry.isEmpty() && queryGender.isEmpty())
+							querySpecType += "Match (t: NeoSpecType {name: {specType}}) <-[rt:HAS_SPECTYPE]- (s:NeoSample) ";
+						else 
+							querySpecType += "Match (t: NeoSpecType {name: {specType}}) <-[rt:HAS_SPECTYPE]- (s) ";
+					case "character":
+						if (queryCountry.isEmpty() && queryGender.isEmpty() && querySpecType.isEmpty())
+							querySpecType += "Match (h: NeoCharacter {name: {character}}) <-[rh:HAS_CHARACTER]- (s:NeoSample) ";
+						else
+							querySpecType += "Match (h: NeoCharacter {name: {character}}) <-[rh:HAS_CHARACTER]- (s) ";
 				}
 			}
 		}
-		query = queryCountry + queryGender + "RETURN s";
+		query = queryCountry + queryGender + querySpecType + queryCharacter + "RETURN s";
 		return query;
 	}
 	
 	private Collection<NeoSample> runNeoQuery(String query, Map<String, String> paramsQuery) {
+		System.out.println("----------------------------");
+    	System.out.println("----------------------------");
+    	System.out.println(query);
+    	System.out.println("----------------------------");
     	Collection<NeoSample> samples = new ArrayList<>();
 		Result result = session.query(query, paramsQuery);
 		List<Map<String, Object>> mapSamples = IteratorUtils.toList(result.iterator());
