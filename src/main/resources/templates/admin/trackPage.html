@@ -19,7 +19,7 @@
                         <p class="task-card-date">Use this panel to delete erroneous files</p>
                     </li>
                     <li class="collection-item dismissable li-delete" th:each="f,i : ${ rawFiles }">
-                        <form action="/track" method="post">
+                        <form action="/h3acatalog/track" method="post">
                             <label th:text="${ f.fileName }" style="text-decoration: none;"></label>
                             <input class="validate" name="delete" th:value="${ f.filePath }" hidden="hidden" />
                             <input class="validate" name="process" th:value="${ f.filePath }" hidden="hidden" />
