@@ -60,6 +60,8 @@ public class CatalogController {
 		this.searchFormSession = searchFormSession;
 	}
 	
+	@Autowired Session template; 
+	
 	@ModelAttribute
 	public SearchForm getSearchForm() {
 		return searchFormSession.toForm();
@@ -95,9 +97,21 @@ public class CatalogController {
 	        	studies = runNeoQuery(query, queryParameters);
         	}
     	}
+    	studies = hasSamples(studies);
     	setModelAttributeHomePage(model, studies);
     	
     	return "homePage";
+    }
+    
+    private Collection<NeoStudy> hasSamples(Collection<NeoStudy> studies) {
+    	for (NeoStudy s : studies) {
+    		NeoStudy study = template.load(s.getClass(), s.getId());
+    		if (study.getSamples().size() > 0)
+    			study.setHasSamples("Yes");
+    		else 
+    			study.setHasSamples("No");
+    	}
+    	return studies;
     }
     
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -161,8 +175,6 @@ public class CatalogController {
         model.addAttribute("users", users);
         return "admin/adminPage";
     }
-    
-    @Autowired Session template;  
     
     private void setModelAttributeHomePage(Model model, Collection<NeoStudy> studies) {
     	int countStudies = studyRepository.countStudies();

@@ -111,10 +111,6 @@ public class UploadTrackCSV {
 
     @RequestMapping(value = "/track", params = {"delete"}, method = RequestMethod.POST)
     public String deleteCSVFile(HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException{
-    	System.out.println("----------------------------------");
-    	System.out.println("----------------------------------");
-    	System.out.println("----------------------------------");
-    	System.out.println("----------------------------------");
         String pathToFileToDelete = request.getParameter("delete");
         //File fileToDelete = new ClassPathResource("static" + pathToFileToDelete).getFile();
         File fileToDelete = new File("." + pathToFileToDelete);

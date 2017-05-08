@@ -41,7 +41,7 @@
                         <form action="/delete" method="post">
                             <label th:text="${ f.fileName }" style="text-decoration: none;">SSS</label>
                             <input  class="validate delete-csv" name="delete" th:value="${ f.filePath }" hidden="hidden" />
-                            <button th:if="${ user.role } == 'ADMIN'" class="secondary-content red">delete</button>
+                            <button th:if="${ user.role } == 'ADMIN'" class="secondary-content red" disabled="disabled">delete</button>
                             <button th:if="${user.role != 'ADMIN'}" class="secondary-content red lighten-3" disabled="disabled">delete</button>
                         </form>
                     </li>

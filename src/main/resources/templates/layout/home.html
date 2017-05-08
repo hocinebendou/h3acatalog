@@ -21,25 +21,28 @@
                       <p class="task-card-date">Last release Apr 26, 2017</p>
                   </li>
                   <li class="collection-item dismissable">
-                      <label style="text-decoration: none; font-size: 14px; font-weight: normal;">
+                      <label style="text-decoration: none; font-size: 16px; font-weight: normal; padding-bottom: 10px;">
                           Studies
                           <a th:href="@{/search}" class="secondary-content">
-                              <span id="total-studies" class="task-cat teal" th:text="${countStudies}" style="font-size: 14px; padding-left:12px; padding-right: 12px; color:#000">0</span></a>
+                              <span id="total-studies" class="task-cat teal" th:text="${countStudies}" style="font-size: 16px; 
+                              padding-left:15px; padding-right: 15px; padding-top: 5px; color:#000"></span><span> <i class="material-icons">send</i></span></a>
                       </label>
                   </li>
                   <li class="collection-item dismissable">
-                      <label style="text-decoration: none; font-size: 14px;">
+                      <label style="text-decoration: none; font-size: 16px; padding-bottom: 10px;">
                       	  Samples
                           <a th:href="@{/search/samples}" class="secondary-content">
-                              <span id="total-samples" class="task-cat teal" th:text="${countSamples}" style="font-size: 14px; padding-left:12px; padding-right: 12px; color:#000"></span></a>
+                              <span id="total-samples" class="task-cat teal" th:text="${countSamples}" style="font-size: 16px; 
+                              padding-left:15px; padding-right: 12px; padding-top: 5px; color:#000"></span><span> <i class="material-icons">send</i></span></a>
+                              
                       </label>
                   </li>
               </ul>
           </div>
           <div class="row card">
               <div class="card-content">
-                  <p>The Catalogue database is updated periodically with studies imported from <a href="#">Archive project</a>
-                     with related samples/specimens from the following Biobanks:</p>
+                  <h6>The Catalogue database is updated periodically with studies imported from <a href="#">Archive project</a>
+                     with related samples/specimens from the following Biobanks:</h6>
                   <div class="card-tabs">
                       <ul class="tabs tabs-fixed-width">
                           <li class="tab"><a href="#test4">IBRH3AU</a></li>

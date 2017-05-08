@@ -16,21 +16,21 @@
   			<div class="divider"></div>
   			<div class="section">
   				<h5>Title</h5>
-  				<p th:text="${study.title}"></p>
+  				<h6 th:text="${study.title}"></h6>
   			</div>
   			<div class="divider"></div>
   			<div class="section">
   				<h5>Design</h5>
   				<ul>
   					<li th:each="design : ${study.designs}">
-  						<p th:text="${design.name}"></p>
+  						<h6 th:text="${design.name}"></h6>
   					</li>
   				</ul>
   			</div>
   			<div class="divider"></div>
   			<div class="section">
   				<h5>Description</h5>
-  				<p th:text="${study.description}"></p>
+  				<h6 th:text="${study.description}"></h6>
   			</div>
   			<div class="divider"></div>
   		</div>
@@ -129,7 +129,7 @@
   				<table id="example" class="display" style="cellspacing:0; width:100%;">
                    <thead>
                    <tr>
-                       <th>ID</th>
+                       <th>Seq</th>
                        <th>Gender</th>
                        <th>Type</th>
                        <th>Volume</th>

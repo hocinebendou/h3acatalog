@@ -26,6 +26,7 @@ public class NeoStudy {
     private String acronym;
     private String title;
     private String description;
+    private String hasSamples;
 
     @Relationship(type = "STUDY_DESIGN", direction=Relationship.INCOMING)
     private List<NeoDesign> designs = new ArrayList<>();
@@ -35,6 +36,10 @@ public class NeoStudy {
     
     public NeoStudy() {}
 
+    public Long getId() {
+    	return id;
+    }
+    
     public String getAcronym() {
         return acronym;
     }
@@ -53,5 +58,13 @@ public class NeoStudy {
     
     public List<NeoSample> getSamples() {
         return samples;
+    }
+    
+    public String getHasSamples() {
+    	return hasSamples;
+    }
+    
+    public void setHasSamples(String bool) {
+    	this.hasSamples = bool;
     }
 }

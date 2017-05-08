@@ -8,10 +8,11 @@ import java.util.Collection;
 
 public interface StudyRepository extends PagingAndSortingRepository<NeoStudy, Long> {
 	// query all studies
-	String query = "MATCH (s:NeoStudy)<-[r:STUDY_DESIGN]-(d:NeoDesign) RETURN s, d, r";
+	String query = "MATCH (s:NeoStudy)<-[r:STUDY_DESIGN]-(d:NeoDesign) RETURN s";
 	@Query(query)
 	Collection<NeoStudy> findAllStudies();
 	
+	Collection<NeoStudy> findAll();
 	// find study by acronym
 	NeoStudy findByAcronym(String title);
 	
