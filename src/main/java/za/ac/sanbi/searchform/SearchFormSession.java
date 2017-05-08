@@ -10,18 +10,20 @@ public class SearchFormSession {
 
 	private String studyName;
 	private String design;
+	private String hasSamples;
 	SearchForm searchForm;
 	
 	public void saveForm(SearchForm searchForm) {
 		this.studyName = searchForm.getStudyName();
 		this.design = searchForm.getDesign();
+		this.hasSamples = searchForm.getHasSamples();
 	}
 	
 	public SearchForm toForm() {
 		searchForm = new SearchForm();
 		searchForm.setStudyName(studyName);
 		searchForm.setDesign(design);
-		
+		searchForm.setHasSamples(hasSamples);
 		return searchForm;
 	}
 	
@@ -29,6 +31,7 @@ public class SearchFormSession {
 		if (searchForm != null) {
 			searchForm.setStudyName("");
 			searchForm.setDesign("");
+			searchForm.setHasSamples("");
 		}
 	}
 }

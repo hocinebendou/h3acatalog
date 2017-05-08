@@ -82,13 +82,15 @@ public class CatalogController {
     @RequestMapping("/search")
     public String goToSearchPage(@RequestParam(name="advance", defaultValue="") String advance, Model model) {
     	Collection<NeoStudy> studies = new ArrayList<>();
+    	String bool = "";
     	if (advance.isEmpty()) {
     		studies = showAllStudies();
     	}else {
     		SearchForm searchForm = searchFormSession.toForm();
     		final Map<String, String> parameterValues = new LinkedHashMap<>();
         	parameterValues.put("studyName", searchForm.getStudyName());
-        	parameterValues.put("design", searchForm.getDesign());      	
+        	parameterValues.put("design", searchForm.getDesign()); 
+        	bool = searchForm.getHasSamples();
         	String query = constructQuery(parameterValues);
         	if (query.isEmpty()) {
         		studies = showAllStudies();
@@ -97,20 +99,31 @@ public class CatalogController {
 	        	studies = runNeoQuery(query, queryParameters);
         	}
     	}
-    	studies = hasSamples(studies);
+    	studies = hasSamples(studies, bool);
     	setModelAttributeHomePage(model, studies);
     	
     	return "homePage";
     }
     
-    private Collection<NeoStudy> hasSamples(Collection<NeoStudy> studies) {
+    private Collection<NeoStudy> hasSamples(Collection<NeoStudy> studies, String bool) {
+    	Collection<NeoStudy> ret = new ArrayList<>();
     	for (NeoStudy s : studies) {
     		NeoStudy study = template.load(s.getClass(), s.getId());
-    		if (study.getSamples().size() > 0)
-    			study.setHasSamples("Yes");
-    		else 
+    		if (study.getSamples().size() > 0){
+    			study.setHasSamples("yes");
+    			if (bool.equals("yes")) ret.add(study);
+    		} else {
     			study.setHasSamples("No");
+    			if (bool.equals("no")) ret.add(study);
+    		}
     	}
+
+    	System.out.println("-----------------------");
+    	System.out.println("-----------------------");
+    	System.out.println(ret.size());
+    	System.out.println("-----------------------");
+    	if (! bool.isEmpty()) studies = ret;
+    	
     	return studies;
     }
     
