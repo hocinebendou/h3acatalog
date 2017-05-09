@@ -49,7 +49,7 @@
 		            	<div class="collapsible-body" style="display: block;">
 		            		<ul>
 		            			<li th:each="us : ${users}" th:if="${us.role} != 'ADMIN'">
-		            				<a th:href="'/h3acatalog/track?biobank=' + ${us.username}" th:text="${us.username}"></a>
+		            				<a th:href="'/track?biobank=' + ${us.username}" th:text="${us.username}"></a>
 		            			</li>
 		            		</ul>		
 		           		</div>

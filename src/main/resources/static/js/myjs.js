@@ -76,7 +76,7 @@ $(function() {
     });
     
     function columnChart(id, containerId) {
-    	$.get("/h3acatalog/api/study/" + id, function (data) {
+    	$.get("/api/study/" + id, function (data) {
     		if (!data ) return;
     		var countries = [];
     		var series = [];
