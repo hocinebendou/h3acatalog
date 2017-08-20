@@ -170,6 +170,10 @@ public class SampleController {
 	}
 	
 	private Collection<NeoSample> runNeoQuery(String query, Map<String, String> paramsQuery) {
+		System.out.println("----------------------------");
+    	System.out.println("----------------------------");
+    	System.out.println(query);
+    	System.out.println("----------------------------");
     	Collection<NeoSample> samples = new ArrayList<>();
 		Result result = session.query(query, paramsQuery);
 		List<Map<String, Object>> mapSamples = IteratorUtils.toList(result.iterator());

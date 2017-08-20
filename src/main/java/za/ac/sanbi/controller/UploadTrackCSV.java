@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,7 +56,7 @@ public class UploadTrackCSV {
 	        copyFileToDir(file, fileType, dir, user);
 	        redirectAttributes.addFlashAttribute("success", "File uploaded successfully!");
         } catch(Exception e) {
-        	redirectAttributes.addFlashAttribute("error", "Erro when loading the file!");
+        	redirectAttributes.addFlashAttribute("error", "Error when loading the file!");
         }
         
         //model.addAttribute("user", user);

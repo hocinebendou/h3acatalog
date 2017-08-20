@@ -118,6 +118,10 @@ public class CatalogController {
     		}
     	}
 
+    	System.out.println("-----------------------");
+    	System.out.println("-----------------------");
+    	System.out.println(ret.size());
+    	System.out.println("-----------------------");
     	if (! bool.isEmpty()) studies = ret;
     	
     	return studies;
