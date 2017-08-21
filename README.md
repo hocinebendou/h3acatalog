@@ -11,6 +11,6 @@ Will need input from the archive side
 
 ## Biobanks
 We count actually 3 biobanks located across Africa:
-* Clinical Labortory services South Africa<http://www.cls.co.za/>
+* Clinical Labortory services South Africa <http://www.cls.co.za/>
 * Integrated Biorepository H3Africa Uganda <http://www.ibru.mak.ac.ug/>
 * Institute of Human Virology Nigeria <http://ihvnigeria.org>
