@@ -157,6 +157,7 @@ public class SampleController {
 							querySpecType += "Match (t: NeoSpecType {name: {specType}}) <-[rt:HAS_SPECTYPE]- (s:NeoSample) ";
 						else 
 							querySpecType += "Match (t: NeoSpecType {name: {specType}}) <-[rt:HAS_SPECTYPE]- (s) ";
+						break;
 					case "character":
 						if (queryCountry.isEmpty() && queryGender.isEmpty() && querySpecType.isEmpty())
 							querySpecType += "Match (h: NeoCharacter {name: {character}}) <-[rh:HAS_CHARACTER]- (s:NeoSample) ";
